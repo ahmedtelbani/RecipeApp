@@ -13,7 +13,10 @@
         android:theme="@style/Theme.RecipeApp"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.AuthActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
