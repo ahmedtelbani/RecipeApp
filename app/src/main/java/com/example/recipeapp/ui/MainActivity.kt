@@ -1,6 +1,5 @@
 package com.example.recipeapp.ui
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -27,7 +26,6 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        startActivity(Intent(this, AuthActivity::class.java))
         // TO DO
     }
 }
