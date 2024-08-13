@@ -33,6 +33,7 @@ class AuthActivity : AppCompatActivity() {
             insets
         }
         // TO DO
+
         authViewModel.addUser(User(0, "Ahmed", "a@yahoo.com", "ss", "ss"))
         // authViewModel.addUser(User(0, "Mohamed", "m@yahoo.com", "mm", "mm"))
         authViewModel.deleteUser(User(3, "Ahmed", "a@yahoo.com", "ss", "ss"))
