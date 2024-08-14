@@ -9,7 +9,7 @@
         android:roundIcon="@drawable/icon"
         android:supportsRtl="true"
         android:theme="@style/SplashTheme">
-        <activity android:name=".ui.main.SplashFragment"
+        <activity android:name=".ui.AuthActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,7 +19,7 @@
 
         <activity android:name=".ui.MainActivity" />
 
-        <activity android:name=".ui.AuthActivity" />
+
 
     </application>
 
