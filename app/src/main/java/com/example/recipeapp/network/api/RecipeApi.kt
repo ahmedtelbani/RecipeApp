@@ -1,6 +1,6 @@
 package com.example.recipeapp.network.api
 
-import com.example.recipeapp.network.api.responses.MultiMealResponse
+import com.example.recipeapp.data.model.ResponseObject
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -10,15 +10,15 @@ interface RecipeApi {
     */
 
     @GET("search.php?s=")
-    suspend fun getAllMeals(): MultiMealResponse
+    suspend fun getAllMeals(): ResponseObject
 
 
     @GET("lookup.php")
-    suspend fun getMealById(@Query("i")  mealId: Int): MultiMealResponse
+    suspend fun getMealById(@Query("i")  mealId: Int): ResponseObject
 
 
     @GET("search.php")
-    suspend fun searchMealsByName(@Query("s") mealName: String): MultiMealResponse
+    suspend fun searchMealsByName(@Query("s") mealName: String): ResponseObject
 
 
 }

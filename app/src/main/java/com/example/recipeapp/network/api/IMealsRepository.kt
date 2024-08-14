@@ -1,10 +1,12 @@
 package com.example.recipeapp.network.api
 
+import com.example.recipeapp.data.model.Meal
+
 interface IMealsRepository {
 
-    suspend fun getAllMeals(): List<MealDTO>
+    suspend fun getAllMeals(): List<Meal>
 
-    suspend fun getMealById(mealId: Int): MealDTO?
+    suspend fun getMealById(mealId: Int): Meal?
 
-    suspend fun searchMealsByName(mealName: String): List<MealDTO>?
+    suspend fun searchMealsByName(mealName: String): List<Meal>?
 }
