@@ -9,7 +9,6 @@ interface RecipeApi {
     * Interface defining Retrofit API endpoints.
     */
 
-    // DON'T USE THIS FUNCTION NOW
     @GET("search.php?s=")
     suspend fun getAllMeals(): MultiMealResponse
 
