@@ -2,6 +2,7 @@ package com.example.recipeapp.data.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.io.Serializable
 
 @Entity(tableName = "FavoriteMeals")
 data class Meal(
@@ -59,4 +60,4 @@ data class Meal(
     val strSource: String,
     val strTags: String,
     val strYoutube: String
-)
+): Serializable
