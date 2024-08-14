@@ -5,7 +5,7 @@ import com.example.recipeapp.data.model.Meal
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class RecipeRepository(private val recipeDao: RecipeDao) {
+class RecipeRepository(private val recipeDao: RecipeDao): IRecipeRepository {
     /**
      * Handles data operations, including fetching data from the network and the local database.
      */
