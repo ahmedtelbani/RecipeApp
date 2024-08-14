@@ -20,6 +20,7 @@ abstract class RecipeDatabase: RoomDatabase() {
         @Volatile
         private var INSTANCE: RecipeDatabase? = null
 
+        @Synchronized
         fun getDatabase(context: Context): RecipeDatabase {
             val tempInstance = INSTANCE
             if (tempInstance != null) {
