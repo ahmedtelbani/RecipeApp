@@ -3,8 +3,8 @@ package com.example.recipeapp.network.api
 class MealsRepository(
     private val remoteDataSource: IRemoteDataSource
 ): IMealsRepository {
-    override suspend fun getAllMeals() {
-        TODO("Not yet implemented")
+    override suspend fun getAllMeals(): List<MealDTO> {
+        return remoteDataSource.getAllMeals()
     }
 
     override suspend fun getMealById(mealId: Int): MealDTO? {

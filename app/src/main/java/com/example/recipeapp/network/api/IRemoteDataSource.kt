@@ -1,7 +1,7 @@
 package com.example.recipeapp.network.api
 
 interface IRemoteDataSource {
-    suspend fun getAllMeals()
+    suspend fun getAllMeals(): List<MealDTO>
 
     suspend fun getMealById(mealId: Int): MealDTO?
 

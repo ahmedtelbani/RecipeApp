@@ -10,8 +10,8 @@ interface RecipeApi {
     */
 
     // DON'T USE THIS FUNCTION NOW
-    @GET("")
-    suspend fun getAllMeals()
+    @GET("search.php?s=")
+    suspend fun getAllMeals(): MultiMealResponse
 
 
     @GET("lookup.php")
