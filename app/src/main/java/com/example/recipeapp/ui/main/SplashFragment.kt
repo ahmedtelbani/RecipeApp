@@ -7,12 +7,10 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.recipeapp.R
-import com.example.recipeapp.ui.AuthActivity
-import com.example.recipeapp.ui.MainActivity
+import com.example.recipeapp.ui.RecipeActivity
 import com.example.recipeapp.util.PreferencesHelper
 
 class SplashFragment : Fragment() {
@@ -36,7 +34,7 @@ class SplashFragment : Fragment() {
                 navController.navigate(R.id.action_splashFragment_to_loginFragment)
             } else {
 
-                startActivity(Intent(requireActivity(), MainActivity::class.java))
+                startActivity(Intent(requireActivity(), RecipeActivity::class.java))
                 requireActivity().finish()
             }
         }, 3000)

@@ -1,19 +1,17 @@
 package com.example.recipeapp.ui
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
-import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.recipeapp.R
 import com.example.recipeapp.ui.viewmodel.RecipeViewModel
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class MainActivity : AppCompatActivity() {
+class RecipeActivity : AppCompatActivity() {
 
     /**
      * Hosts the HomeFragment, FavoriteFragment, SearchFragment, RecipeDetailFragment, etc
@@ -21,6 +19,7 @@ class MainActivity : AppCompatActivity() {
 
     private val recipeViewModel: RecipeViewModel by viewModels()
     private lateinit var navController: NavController
+    private lateinit var bottomNav : BottomNavigationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +32,23 @@ class MainActivity : AppCompatActivity() {
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.nav_host_fragment_main) as NavHostFragment
         navController = navHostFragment.navController
+
+        //Bottom Navigation View
+        bottomNav = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        bottomNav.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.navigation_home -> {
+                    true
+                }
+                R.id.navigation_search -> {
+                    true
+                }
+                R.id.navigation_favorite -> {
+                    true
+                }
+                else -> false
+            }
+        }
     }
 
 }

@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">RecipeApp</string>
+    <string name="home">Home</string>
+    <string name="search">Search</string>
+    <string name="favorite">Favorite</string>
     <string name="already_have_an_account_login">Already have an account?</string>
     <string name="don_t_have_an_account_sign_up">Don\'t have an account?</string>
     <string name="sign_up"><u>Sign up</u></string>

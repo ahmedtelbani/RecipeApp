@@ -85,7 +85,7 @@ class RegisterFragment : Fragment() {
                                 ).setBackgroundTint(resources.getColor(R.color.primaryColor))
                                     .setAction("Login")
                                     {
-                                        parentFragmentManager.beginTransaction().replace(R.id.fragment_container_view, LoginFragment()).commit()
+//                                        parentFragmentManager.beginTransaction().replace(R.id.fragment_container_view, LoginFragment()).commit()
                                     }
                                     .show()
                             }
