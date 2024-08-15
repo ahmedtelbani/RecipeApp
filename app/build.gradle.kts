@@ -75,4 +75,7 @@ dependencies {
 
     // Lottie for animations
     implementation(libs.lottie)
+
+    // Glide
+    implementation(libs.glide)
 }
