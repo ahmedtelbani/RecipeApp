@@ -18,14 +18,18 @@ import com.example.recipeapp.ui.viewmodel.RecipeViewModel
 import kotlinx.coroutines.launch
 
 class FavoriteFragment : Fragment() {
-    private val viewModel: RecipeViewModel by viewModels ()
+    private val viewModel: RecipeViewModel by viewModels()
     private lateinit var favoriteAdapter: MealAdapter
     private lateinit var recyclerView: RecyclerView
     private lateinit var emptyTextView: TextView
     private lateinit var toolbar: Toolbar
 
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_favorite, container, false)
     }
 
@@ -34,9 +38,20 @@ class FavoriteFragment : Fragment() {
         toolbar = view.findViewById(R.id.toolbar)
         recyclerView = view.findViewById(R.id.recyclerView)
         emptyTextView = view.findViewById(R.id.emptyTextView)
+        //viewModel.addTestMeal()
 
-        setupToolbar()
-        setupRecyclerView()
+        toolbar.setNavigationIcon(R.drawable.ic_back_arrow)
+        toolbar.setNavigationOnClickListener {
+            requireActivity().onBackPressed()
+        }
+        favoriteAdapter = MealAdapter(mutableListOf()) { meal ->
+            viewModel.deleteFavoriteMeal(meal)
+            viewModel.getAllFavoriteMeals()
+        }
+
+        // Set up the RecyclerView with the adapter
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        recyclerView.adapter = favoriteAdapter
 
         viewModel.favoriteMealList.observe(viewLifecycleOwner, Observer { meals ->
             if (meals.isEmpty()) {
@@ -45,28 +60,10 @@ class FavoriteFragment : Fragment() {
             } else {
                 emptyTextView.visibility = View.GONE
                 recyclerView.visibility = View.VISIBLE
-                favoriteAdapter.submitList(meals)
+                favoriteAdapter.updateMeals(meals)
             }
         })
 
-        // Fetch all favorite meals when the fragment is created
         viewModel.getAllFavoriteMeals()
-    }
-
-    private fun setupToolbar() {
-        toolbar.title = "Favorite Meals"
-        toolbar.setNavigationIcon(R.drawable.ic_back_arrow)
-        toolbar.setNavigationOnClickListener {
-            findNavController().navigate(R.id.action_favoriteFragment_to_homeFragment)}
-    }
-
-    private fun setupRecyclerView() {
-        favoriteAdapter = MealAdapter { meal ->
-            viewModel.deleteFavoriteMeal(meal)
-        }
-        recyclerView.apply {
-            layoutManager = LinearLayoutManager(context)
-            adapter = favoriteAdapter
-        }
     }
 }

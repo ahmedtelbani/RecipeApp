@@ -14,45 +14,44 @@ import com.squareup.picasso.Picasso
 import com.example.recipeapp.data.model.Meal
 
 class MealAdapter(
-    private val onRemoveFavorite: (Meal) -> Unit
-) : ListAdapter<Meal, MealAdapter.MealViewHolder>(DiffCallback()) {
+    private var meals: MutableList<Meal>,
+    private val onDeleteClicked: (Meal) -> Unit
+) : RecyclerView.Adapter<MealAdapter.MealViewHolder>() {
+
+    inner class MealViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val mealImageView: ImageView = view.findViewById(R.id.mealImageView)
+        val mealNameTextView: TextView = view.findViewById(R.id.mealNameTextView)
+        val heartButton: ImageButton = view.findViewById(R.id.heartButton)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MealViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_meal, parent, false)
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.item_meal, parent, false)
         return MealViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: MealViewHolder, position: Int) {
-        val meal = getItem(position)
-        holder.bind(meal)
-    }
+        val meal = meals[position]
+        holder.mealNameTextView.text = meal.strMeal
+        Picasso.get().load(meal.strMealThumb).into(holder.mealImageView)
 
-    inner class MealViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val mealImageView: ImageView = itemView.findViewById(R.id.mealImageView)
-        private val mealNameTextView: TextView = itemView.findViewById(R.id.mealNameTextView)
-        private val heartButton: ImageButton = itemView.findViewById(R.id.heartButton)
+        holder.heartButton.setOnClickListener {
+            onDeleteClicked(meal)
+            removeMeal(position)
 
-        fun bind(meal: Meal) {
-            mealNameTextView.text = meal.strMeal
-            Picasso.get()
-                .load(meal.strImageSource)
-                .placeholder(R.drawable.baseline_downloading_24)
-                .error(R.drawable.baseline_wifi_tethering_error_24)
-                .into(mealImageView)
-
-            heartButton.setOnClickListener {
-                onRemoveFavorite(meal)
-            }
         }
     }
-
-    class DiffCallback : DiffUtil.ItemCallback<Meal>() {
-        override fun areItemsTheSame(oldItem: Meal, newItem: Meal): Boolean {
-            return oldItem.idMeal == newItem.idMeal
-        }
-
-        override fun areContentsTheSame(oldItem: Meal, newItem: Meal): Boolean {
-            return oldItem == newItem
-        }
+    fun updateMeals(newMeals: List<Meal>) {
+        meals.clear()
+        meals.addAll(newMeals)
+        notifyDataSetChanged()
     }
+
+    private fun removeMeal(position: Int) {
+        meals.removeAt(position)
+        notifyItemRemoved(position)
+        notifyItemRangeChanged(position, meals.size)
+    }
+
+    override fun getItemCount(): Int = meals.size
 }
