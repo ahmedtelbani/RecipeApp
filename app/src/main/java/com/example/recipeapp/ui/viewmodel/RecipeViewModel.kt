@@ -50,11 +50,11 @@ class RecipeViewModel(application: Application): AndroidViewModel(application) {
         }
     }
 
-    fun deleteFavoriteMeal(meal: Meal): String {
+    fun deleteFavoriteMeal(meal: Meal) {
         viewModelScope.launch(Dispatchers.IO) {
             recipeRepository.deleteFavoriteMeal(meal)
+            getAllFavoriteMeals()
         }
-        return meal.idMeal
     }
 
 

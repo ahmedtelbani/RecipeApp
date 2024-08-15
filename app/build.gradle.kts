@@ -73,4 +73,6 @@ dependencies {
 
     // Lottie for animations
     implementation(libs.lottie)
+    implementation(libs.picasso)
+
 }
