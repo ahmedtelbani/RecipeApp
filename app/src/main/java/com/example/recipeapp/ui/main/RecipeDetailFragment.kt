@@ -13,6 +13,7 @@ import android.widget.ListView
 import android.widget.TextView
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
+import androidx.transition.Visibility
 import com.bumptech.glide.Glide
 import com.example.recipeapp.R
 import com.example.recipeapp.data.model.Meal
@@ -50,6 +51,14 @@ class RecipeDetailFragment : Fragment() {
             if(it != null) {
                 updateMealUI(it)
             }
+        }
+
+        showMoreButton.setOnClickListener {
+            viewModel.switchShowFullRecipe()
+        }
+
+        viewModel.showFullRecipe.observe(viewLifecycleOwner) {
+            setItemsVisibility(it)
         }
     }
 
@@ -98,5 +107,18 @@ class RecipeDetailFragment : Fragment() {
 
     private fun filterNotEmptyOrNotBlank(list: List<String>): List<String> {
         return list.filter { it.isNotEmpty() || it.isNotBlank() }
+    }
+
+    private fun setItemsVisibility(isVisible: Boolean) {
+        if(!isVisible) {
+            recipeMeasuresListView.visibility = View.GONE
+            recipeIngredientsListView.visibility = View.GONE
+            recipeInstructionsTextView.visibility = View.GONE
+        } else {
+            recipeMeasuresListView.visibility = View.VISIBLE
+            recipeIngredientsListView.visibility = View.VISIBLE
+            recipeInstructionsTextView.visibility = View.VISIBLE
+        }
+
     }
 }

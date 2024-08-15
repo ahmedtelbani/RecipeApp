@@ -68,6 +68,9 @@ class RecipeViewModel(application: Application): AndroidViewModel(application) {
     private val _selectedRecipe: MutableLiveData<Meal?> = MutableLiveData()
     val selectedRecipe: LiveData<Meal?> = _selectedRecipe
 
+    private val _showFullRecipe: MutableLiveData<Boolean> = MutableLiveData(false)
+    val showFullRecipe: LiveData<Boolean> = _showFullRecipe
+
 
     fun getMealById(id: Int) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -81,9 +84,10 @@ class RecipeViewModel(application: Application): AndroidViewModel(application) {
         }
     }
 
+    private fun setShowFullRecipe(value: Boolean) = _showFullRecipe.postValue(value)
 
-
-
-
+    fun switchShowFullRecipe() {
+        setShowFullRecipe(!showFullRecipe.value!!)
+    }
 
 }
