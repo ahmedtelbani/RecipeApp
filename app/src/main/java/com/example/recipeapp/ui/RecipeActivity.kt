@@ -5,9 +5,13 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.example.recipeapp.R
+import com.example.recipeapp.ui.main.FavoriteFragment
+import com.example.recipeapp.ui.main.HomeFragment
+import com.example.recipeapp.ui.main.SearchFragment
 import com.example.recipeapp.ui.viewmodel.RecipeViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -30,7 +34,7 @@ class RecipeActivity : AppCompatActivity() {
             insets
         }
         val navHostFragment = supportFragmentManager
-            .findFragmentById(R.id.nav_host_fragment_main) as NavHostFragment
+            .findFragmentById(R.id.fragment_main) as NavHostFragment
         navController = navHostFragment.navController
 
         //Bottom Navigation View
@@ -38,18 +42,24 @@ class RecipeActivity : AppCompatActivity() {
         bottomNav.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.navigation_home -> {
+                    replaceFragment(HomeFragment())
                     true
                 }
                 R.id.navigation_search -> {
+                    replaceFragment(SearchFragment())
                     true
                 }
                 R.id.navigation_favorite -> {
+                    replaceFragment(FavoriteFragment())
                     true
                 }
                 else -> false
             }
         }
+            replaceFragment(HomeFragment())
     }
-
+    private fun replaceFragment(fragment: Fragment){
+        supportFragmentManager.beginTransaction().replace(R.id.fragment_main,fragment).commit()
+    }
 }
 
