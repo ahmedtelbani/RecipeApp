@@ -5,18 +5,65 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.recipeapp.R
+import com.example.recipeapp.ui.viewmodel.RecipeViewModel
+import kotlinx.coroutines.launch
 
 class FavoriteFragment : Fragment() {
+    private val viewModel: RecipeViewModel by viewModels()
+    private lateinit var favoriteAdapter: MealAdapter
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var emptyTextView: TextView
+    private lateinit var toolbar: Toolbar
 
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_favorite, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // TO DO
-    }
+        toolbar = view.findViewById(R.id.toolbar)
+        recyclerView = view.findViewById(R.id.recyclerView)
+        emptyTextView = view.findViewById(R.id.emptyTextView)
+        //viewModel.addTestMeal()
 
+        toolbar.setNavigationIcon(R.drawable.ic_back_arrow)
+        toolbar.setNavigationOnClickListener {
+            requireActivity().onBackPressed()
+        }
+        favoriteAdapter = MealAdapter(mutableListOf()) { meal ->
+            viewModel.deleteFavoriteMeal(meal)
+            viewModel.getAllFavoriteMeals()
+        }
+
+        // Set up the RecyclerView with the adapter
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        recyclerView.adapter = favoriteAdapter
+
+        viewModel.favoriteMealList.observe(viewLifecycleOwner, Observer { meals ->
+            if (meals.isEmpty()) {
+                emptyTextView.visibility = View.VISIBLE
+                recyclerView.visibility = View.GONE
+            } else {
+                emptyTextView.visibility = View.GONE
+                recyclerView.visibility = View.VISIBLE
+                favoriteAdapter.updateMeals(meals)
+            }
+        })
+
+        viewModel.getAllFavoriteMeals()
+    }
 }

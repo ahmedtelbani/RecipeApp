@@ -90,4 +90,5 @@ class RecipeViewModel(application: Application): AndroidViewModel(application) {
         setShowFullRecipe(!showFullRecipe.value!!)
     }
 
+
 }

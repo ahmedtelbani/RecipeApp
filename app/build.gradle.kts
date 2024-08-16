@@ -76,6 +76,12 @@ dependencies {
     // Lottie for animations
     implementation(libs.lottie)
 
+
     // Glide
     implementation(libs.glide)
+
+
+    implementation(libs.picasso)
+    implementation (libs.material.v190)
+
 }
