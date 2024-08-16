@@ -4,5 +4,5 @@ object Constants {
     /**
      * Stores constant values like base URLs.
      */
-    const val BASE_URL = "https://www.themealdb.com/api/"
+    const val BASE_URL = "https://www.themealdb.com/api/json/v1/1/"
 }

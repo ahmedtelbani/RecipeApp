@@ -16,7 +16,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.navOptions
 import com.example.recipeapp.R
 import com.example.recipeapp.databinding.FragmentLoginBinding
-import com.example.recipeapp.ui.MainActivity
+import com.example.recipeapp.ui.RecipeActivity
 import com.example.recipeapp.ui.viewmodel.AuthViewModel
 import com.example.recipeapp.util.PreferencesHelper
 import com.google.android.material.snackbar.Snackbar
@@ -87,7 +87,7 @@ class LoginFragment : Fragment() {
                         {
                             var preferences = PreferencesHelper(requireContext())
                             preferences.setValue(user.id)
-                            var intent = Intent(requireActivity(), MainActivity::class.java)
+                            var intent = Intent(requireActivity(), RecipeActivity::class.java)
                             startActivity(intent)
                             requireActivity().finish()
 

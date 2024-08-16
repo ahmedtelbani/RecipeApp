@@ -78,4 +78,7 @@ dependencies {
 
     //Glide
     implementation(libs.glide)
+
+    implementation(libs.picasso)
+    implementation(libs.material.v190)
 }
