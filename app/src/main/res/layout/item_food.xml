@@ -16,7 +16,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="@dimen/padding_medium"
             android:background="@color/cardViewColor">
 
             <ImageView
@@ -24,14 +23,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="140dp"
                 android:scaleType="centerCrop"
-                app:srcCompat="@drawable/ic_image" />
+                app:srcCompat="@drawable/background" />
 
 
             <TextView
                 android:id="@+id/mealNameTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="@dimen/padding_medium"
+                android:layout_marginHorizontal="@dimen/padding_large"
                 android:text="title"
                 android:textSize="@dimen/text_large"
                 android:textStyle="bold"
@@ -42,7 +42,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:layout_marginTop="8dp"
+                android:layout_marginBottom="@dimen/margin_small"
+                android:layout_marginHorizontal="@dimen/padding_large"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:src="@drawable/ic_favorite_border"
                 android:contentDescription="@string/favorite" />
