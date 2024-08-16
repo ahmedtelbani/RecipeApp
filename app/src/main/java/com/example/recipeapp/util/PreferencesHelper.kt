@@ -7,19 +7,20 @@ import android.util.Log
 class PreferencesHelper(context: Context) {
 
     private val preferences: SharedPreferences = context.getSharedPreferences("MyPreferences", Context.MODE_PRIVATE)
-
-    private val currentIDKey: String = "currentLoginUserID"
-    private val defaultValue: Int = 0
-    fun getValue(): Int {
-        val value = preferences.getInt(currentIDKey, defaultValue)
-        Log.d("PreferencesHelper", "getValue: $value")
+    val currentID: String = "currentLoginUserID"
+  
+    fun getValue(): Long {
+        val value = preferences.getLong(currentID, 0)
+        if (value == 0L){
+            setValue(0)
+        }
         return value
     }
-
-    fun setValue(value: Int) {
-        Log.d("PreferencesHelper", "setValue: $value")
+    
+    fun setValue(value: Long) {
         val editor = preferences.edit()
-        editor.putInt(currentIDKey, value)
+        editor.putLong(currentID, value)
         editor.apply()
     }
+    
 }
