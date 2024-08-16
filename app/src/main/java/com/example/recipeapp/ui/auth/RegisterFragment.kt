@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.example.recipeapp.R
 import com.example.recipeapp.data.model.User
 import com.example.recipeapp.databinding.FragmentRegisterBinding
@@ -28,6 +29,9 @@ class RegisterFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.loginTV.setOnClickListener {
+            findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
+        }
         binding.signUpButton.setOnClickListener {
             var username = binding.usernameEditText.text.toString()
             var email = binding.emailEditText.text.toString()
@@ -85,7 +89,7 @@ class RegisterFragment : Fragment() {
                                 ).setBackgroundTint(resources.getColor(R.color.primaryColor))
                                     .setAction("Login")
                                     {
-                                        parentFragmentManager.beginTransaction().replace(R.id.fragment_container_view, LoginFragment()).commit()
+                                        //parentFragmentManager.beginTransaction().replace(R.id.fragment_container_view, LoginFragment()).commit()
                                     }
                                     .show()
                             }

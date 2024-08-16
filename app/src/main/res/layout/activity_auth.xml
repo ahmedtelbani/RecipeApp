@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.AuthActivity"
-    android:id="@+id/main">
+    android:id="@+id/main2">
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/nav_host_fragment_auth"

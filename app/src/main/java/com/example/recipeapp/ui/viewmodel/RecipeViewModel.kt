@@ -57,5 +57,4 @@ class RecipeViewModel(application: Application): AndroidViewModel(application) {
         return meal.idMeal
     }
 
-
 }
