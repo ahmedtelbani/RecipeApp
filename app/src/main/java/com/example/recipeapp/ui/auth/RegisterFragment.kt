@@ -1,5 +1,6 @@
 package com.example.recipeapp.ui.auth
 
+import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,26 +9,42 @@ import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.navOptions
 import com.example.recipeapp.R
 import com.example.recipeapp.data.model.User
 import com.example.recipeapp.databinding.FragmentRegisterBinding
 import com.example.recipeapp.ui.viewmodel.AuthViewModel
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.TextStyle
+import java.util.Locale
 
 class RegisterFragment : Fragment() {
     lateinit var binding: FragmentRegisterBinding
     val authViewModel: AuthViewModel by viewModels()
+    lateinit var navController: NavController
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentRegisterBinding.inflate(layoutInflater)
+        navController = findNavController()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.loginTV.setOnClickListener {
+            findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
+        }
         binding.signUpButton.setOnClickListener {
             var username = binding.usernameEditText.text.toString()
             var email = binding.emailEditText.text.toString()
@@ -56,28 +73,22 @@ class RegisterFragment : Fragment() {
                 ) {
                     Snackbar.make(
                         binding.root,
-                        "The password must contain one capital letter, 3 numbers, and be between 8-15 characters",
+                        "The password must contain one capital letter, 3 numbers and be between 8-15 characters",
                         Snackbar.LENGTH_LONG
                     ).setBackgroundTint(resources.getColor(R.color.primaryColor))
                         .show()
-                }
-                else
-                {
-                    if(password != confirmedPassword)
-                    {
+                } else {
+                    if (password != confirmedPassword) {
                         Snackbar.make(
                             binding.root,
                             "The passwords doesn't match!",
                             Snackbar.LENGTH_LONG
                         ).setBackgroundTint(resources.getColor(R.color.primaryColor))
                             .show()
-                    }
-                    else
-                    {
+                    } else {
                         authViewModel.isUserExistByEmail(email)
                         authViewModel.isUserExist.observe(viewLifecycleOwner, Observer {
-                            if(it)
-                            {
+                            if (it) {
                                 Snackbar.make(
                                     binding.root,
                                     "A user with this Email already exists",
@@ -85,19 +96,54 @@ class RegisterFragment : Fragment() {
                                 ).setBackgroundTint(resources.getColor(R.color.primaryColor))
                                     .setAction("Login")
                                     {
-//                                        parentFragmentManager.beginTransaction().replace(R.id.fragment_container_view, LoginFragment()).commit()
+                                        navController.navigate(R.id.action_registerFragment_to_loginFragment,
+                                            null,
+                                            navOptions {
+                                                popUpTo(R.id.registerFragment)
+                                                {
+                                                    inclusive = true
+                                                }
+                                            })
                                     }
                                     .show()
-                            }
-                            else
-                            {
-                             authViewModel.addUser(User(0, name = username, email = email, hashedPassword = password, "Monday"))
+                            } else {
+                                authViewModel.addUser(
+                                    User(
+                                        0,
+                                        name = username,
+                                        email = email,
+                                        hashedPassword = password,
+                                        "Sunday"
+                                    )
+                                )
+                                Snackbar.make(
+                                    binding.root,
+                                    "Login successful",
+                                    Snackbar.LENGTH_LONG
+                                ).setBackgroundTint(resources.getColor(R.color.primaryColor))
+                                    .show()
+                                navController.navigate(R.id.action_registerFragment_to_loginFragment,
+                                    null,
+                                    navOptions {
+                                        popUpTo(R.id.registerFragment) {
+                                            inclusive = true
+                                        }
+                                    })
                             }
                         })
                     }
                 }
             }
 
+        }
+        binding.loginTV.setOnClickListener {
+            navController.navigate(R.id.action_registerFragment_to_loginFragment,
+                null,
+                navOptions {
+                    popUpTo(R.id.registerFragment) {
+                        inclusive = true
+                    }
+                })
         }
     }
 

@@ -10,8 +10,9 @@
         android:label="@string/app_name"
         android:roundIcon="@drawable/icon"
         android:supportsRtl="true"
-        android:theme="@style/SplashTheme">
+        android:theme="@style/AppTheme">
         <activity android:name=".ui.AuthActivity"
+            android:theme="@style/LoginTheme"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

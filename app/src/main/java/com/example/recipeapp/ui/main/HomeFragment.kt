@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -12,8 +13,10 @@ import com.example.recipeapp.R
 import com.example.recipeapp.ui.main.adapter.FoodAdapter
 import com.example.recipeapp.ui.viewmodel.RecipeViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.example.recipeapp.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
+    private lateinit var binding: FragmentHomeBinding
     private lateinit var viewModel: RecipeViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,7 +31,8 @@ class HomeFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
         val recyclerView: RecyclerView = view.findViewById(R.id.food_recycler_view)
         viewModel = ViewModelProvider(this).get(RecipeViewModel::class.java)
-
+        binding = FragmentHomeBinding.inflate(inflater, container, false)
+//        return binding.root
         viewModel.favoriteMealList.observe(viewLifecycleOwner) { foodList ->
             recyclerView.adapter = FoodAdapter(foodList)
         }
@@ -45,6 +49,3 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
     }
 }
-
-
-
