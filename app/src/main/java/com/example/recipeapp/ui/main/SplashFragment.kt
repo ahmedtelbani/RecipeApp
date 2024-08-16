@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.navOptions
 import com.example.recipeapp.R
 import com.example.recipeapp.ui.AuthActivity
 import com.example.recipeapp.ui.MainActivity
@@ -18,7 +19,8 @@ import com.example.recipeapp.util.PreferencesHelper
 class SplashFragment : Fragment() {
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_splash, container, false)
     }
 
@@ -31,9 +33,14 @@ class SplashFragment : Fragment() {
             val preferencesHelper = PreferencesHelper(requireContext())
             val userStatus = preferencesHelper.getValue()
 
-            if (userStatus == 0) {
-
-                navController.navigate(R.id.action_splashFragment_to_loginFragment)
+            if (userStatus == 0L) {
+                navController.navigate(R.id.action_splashFragment_to_loginFragment,
+                    null,
+                    navOptions {
+                        popUpTo(R.id.splashFragment) {
+                            inclusive = true
+                        }
+                    })
             } else {
 
                 startActivity(Intent(requireActivity(), MainActivity::class.java))

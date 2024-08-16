@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.Material3.Dark.NoActionBar">
         <item name="colorPrimary">@color/cardview_shadow_end_color</item>
         <item name="colorPrimaryDark">@color/cardview_shadow_end_color</item>
         <item name="colorAccent">@color/cardview_shadow_end_color</item>
