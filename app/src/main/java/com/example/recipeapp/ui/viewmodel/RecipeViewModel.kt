@@ -8,8 +8,11 @@ import androidx.lifecycle.viewModelScope
 import com.example.recipeapp.data.database.RecipeDatabase
 import com.example.recipeapp.data.model.Meal
 import com.example.recipeapp.data.repository.RecipeRepository
+import com.example.recipeapp.network.api.RemoteDataSource
+import com.example.recipeapp.network.api.RetrofitInstance
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class RecipeViewModel(application: Application): AndroidViewModel(application) {
     /**
@@ -27,7 +30,8 @@ class RecipeViewModel(application: Application): AndroidViewModel(application) {
 
     init {
         val recipeDao = RecipeDatabase.getDatabase(application).recipeDao()
-        recipeRepository = RecipeRepository(recipeDao)
+        val remoteDataSource = RemoteDataSource(RetrofitInstance.api)
+        recipeRepository = RecipeRepository(recipeDao, remoteDataSource)
     }
 
 
@@ -56,5 +60,35 @@ class RecipeViewModel(application: Application): AndroidViewModel(application) {
         }
         return meal.idMeal
     }
+
+    // ---------------------------
+    // Recipe Details Screen
+    // ---------------------------
+
+    private val _selectedRecipe: MutableLiveData<Meal?> = MutableLiveData()
+    val selectedRecipe: LiveData<Meal?> = _selectedRecipe
+
+    private val _showFullRecipe: MutableLiveData<Boolean> = MutableLiveData(false)
+    val showFullRecipe: LiveData<Boolean> = _showFullRecipe
+
+
+    fun getMealById(id: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val selectedMeal = recipeRepository.getMealById(id)
+            // switched context because i can't post value on IO thread
+            withContext(Dispatchers.Main) {
+                _selectedRecipe.postValue(
+                    selectedMeal
+                )
+            }
+        }
+    }
+
+    private fun setShowFullRecipe(value: Boolean) = _showFullRecipe.postValue(value)
+
+    fun switchShowFullRecipe() {
+        setShowFullRecipe(!showFullRecipe.value!!)
+    }
+
 
 }
