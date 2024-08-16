@@ -11,7 +11,6 @@ class PreferencesHelper(context: Context) {
     private val currentIDKey: String = "currentLoginUserID"
     private val defaultValue: Int = 0
     fun getValue(): Int {
-        setValue(1)
         val value = preferences.getInt(currentIDKey, defaultValue)
         Log.d("PreferencesHelper", "getValue: $value")
         return value
