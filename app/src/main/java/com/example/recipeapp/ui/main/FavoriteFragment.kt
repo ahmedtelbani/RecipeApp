@@ -9,13 +9,11 @@ import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recipeapp.R
+import com.example.recipeapp.ui.main.adapter.MealAdapter
 import com.example.recipeapp.ui.viewmodel.RecipeViewModel
-import kotlinx.coroutines.launch
 
 class FavoriteFragment : Fragment() {
     private val viewModel: RecipeViewModel by viewModels()
@@ -40,10 +38,7 @@ class FavoriteFragment : Fragment() {
         emptyTextView = view.findViewById(R.id.emptyTextView)
         //viewModel.addTestMeal()
 
-        toolbar.setNavigationIcon(R.drawable.ic_back_arrow)
-        toolbar.setNavigationOnClickListener {
-            requireActivity().onBackPressed()
-        }
+        toolbar.title = "Favorite"
         favoriteAdapter = MealAdapter(mutableListOf()) { meal ->
             viewModel.deleteFavoriteMeal(meal)
             viewModel.getAllFavoriteMeals()

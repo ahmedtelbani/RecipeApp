@@ -10,8 +10,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.recipeapp.R
 import com.example.recipeapp.data.model.Meal
+import com.example.recipeapp.ui.viewmodel.RecipeViewModel
 
-class FoodAdapter (private val foodList: List<Meal>) :
+class FoodAdapter (
+    private val foodList: List<Meal>,
+    private val viewModel: RecipeViewModel) :
     RecyclerView.Adapter<FoodAdapter.FoodViewHolder>() {
 
     class FoodViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -35,6 +38,7 @@ class FoodAdapter (private val foodList: List<Meal>) :
 
         holder.favoriteButton.setOnClickListener {
             // Handle favorite click
+//            viewModel.addFavoriteMeal(foodItem)
         }
     }
 

@@ -28,7 +28,7 @@ class HomeFragment : Fragment() {
         val recyclerView: RecyclerView = view.findViewById(R.id.food_recycler_view)
         viewModel = ViewModelProvider(this).get(RecipeViewModel::class.java)
         viewModel.allMealList.observe(viewLifecycleOwner) { foodList ->
-            recyclerView.adapter = FoodAdapter(foodList)
+            recyclerView.adapter = FoodAdapter(foodList,viewModel)
         }
 
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
