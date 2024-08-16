@@ -30,7 +30,7 @@ class FoodAdapter (private val foodList: List<Meal>) :
         holder.foodName.text = foodItem.strMeal
 
         Glide.with(holder.foodImage.context)
-            .load(foodItem.strImageSource)
+            .load(foodItem.strMealThumb)
             .into(holder.foodImage)
 
         holder.favoriteButton.setOnClickListener {

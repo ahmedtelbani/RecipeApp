@@ -7,6 +7,11 @@
     android:id="@+id/fragment_home"
     android:padding="@dimen/padding_large">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="All Meals"
+        android:textSize="@dimen/text_large"/>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/food_recycler_view"
         android:layout_width="match_parent"

@@ -1,6 +1,7 @@
 package com.example.recipeapp.ui.viewmodel
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -8,6 +9,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.recipeapp.data.database.RecipeDatabase
 import com.example.recipeapp.data.model.Meal
 import com.example.recipeapp.data.repository.RecipeRepository
+import com.example.recipeapp.network.api.IMealsRepository
+import com.example.recipeapp.network.api.IRemoteDataSource
+import com.example.recipeapp.network.api.MealsRepository
 import com.example.recipeapp.network.api.RemoteDataSource
 import com.example.recipeapp.network.api.RetrofitInstance
 import kotlinx.coroutines.Dispatchers
@@ -20,6 +24,11 @@ class RecipeViewModel(application: Application): AndroidViewModel(application) {
      */
 
     private val recipeRepository: RecipeRepository
+
+    private val _allMealList: MutableLiveData<List<Meal>> = MutableLiveData()
+    val allMealList: LiveData<List<Meal>> get() = _allMealList
+    private val remoteDataSource : IRemoteDataSource = RemoteDataSource(RetrofitInstance.api)
+    private val repository:IMealsRepository = MealsRepository(remoteDataSource)
 
     private val _favoriteMealList: MutableLiveData<List<Meal>> = MutableLiveData()
     val favoriteMealList: LiveData<List<Meal>> get() = _favoriteMealList
@@ -34,6 +43,18 @@ class RecipeViewModel(application: Application): AndroidViewModel(application) {
         recipeRepository = RecipeRepository(recipeDao, remoteDataSource)
     }
 
+
+    fun getAllMeals(){
+        viewModelScope.launch {
+            try {
+                val result = repository.getAllMeals()
+                _allMealList.postValue(result)
+                Log.i("getAllMeals",result.toString())
+            }catch (e: Exception){
+                Log.e("getAllMeals", e.toString())
+            }
+        }
+    }
 
     fun addFavoriteMeal(meal: Meal): String {
         viewModelScope.launch(Dispatchers.IO) {
