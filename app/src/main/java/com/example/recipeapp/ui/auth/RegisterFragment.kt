@@ -42,6 +42,9 @@ class RegisterFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.loginTV.setOnClickListener {
+            findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
+        }
         binding.signUpButton.setOnClickListener {
             var username = binding.usernameEditText.text.toString()
             var email = binding.emailEditText.text.toString()

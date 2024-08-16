@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     kotlin("kapt")
+    // safe args
+    id("androidx.navigation.safeargs.kotlin")
 }
 
 android {
@@ -73,4 +75,13 @@ dependencies {
 
     // Lottie for animations
     implementation(libs.lottie)
+
+
+    // Glide
+    implementation(libs.glide)
+
+
+    implementation(libs.picasso)
+    implementation (libs.material.v190)
+
 }

@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,6 +33,7 @@ class SplashFragment : Fragment() {
             val navController = findNavController()
             val preferencesHelper = PreferencesHelper(requireContext())
             val userStatus = preferencesHelper.getValue()
+//            preferencesHelper.setValue(1)
 
             if (userStatus == 0L) {
                 navController.navigate(R.id.action_splashFragment_to_loginFragment,
@@ -42,6 +44,7 @@ class SplashFragment : Fragment() {
                         }
                     })
             } else {
+                Log.d("SplashFragment", "Navigating to MainActivity")
 
                 startActivity(Intent(requireActivity(), MainActivity::class.java))
                 requireActivity().finish()

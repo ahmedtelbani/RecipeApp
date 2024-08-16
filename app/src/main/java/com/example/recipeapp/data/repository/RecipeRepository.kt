@@ -2,10 +2,14 @@ package com.example.recipeapp.data.repository
 
 import com.example.recipeapp.data.database.RecipeDao
 import com.example.recipeapp.data.model.Meal
+import com.example.recipeapp.network.api.RemoteDataSource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class RecipeRepository(private val recipeDao: RecipeDao): IRecipeRepository {
+class RecipeRepository(
+    private val recipeDao: RecipeDao,
+    private val remoteDataSource: RemoteDataSource
+): IRecipeRepository {
     /**
      * Handles data operations, including fetching data from the network and the local database.
      */
@@ -24,6 +28,11 @@ class RecipeRepository(private val recipeDao: RecipeDao): IRecipeRepository {
 
     suspend fun deleteFavoriteMeal(meal: Meal) {
         recipeDao.deleteFavoriteMeal(meal)
+    }
+
+    // online related
+    suspend fun getMealById(id: Int): Meal? {
+        return remoteDataSource.getMealById(id)
     }
 
 }
