@@ -6,9 +6,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/icon"
+        android:icon="@drawable/iconsp"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/icon"
+        android:roundIcon="@drawable/iconsp"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".ui.AuthActivity"

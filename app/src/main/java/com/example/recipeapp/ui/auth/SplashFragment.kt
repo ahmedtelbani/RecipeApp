@@ -47,6 +47,6 @@ class SplashFragment : Fragment() {
                 startActivity(Intent(requireActivity(), RecipeActivity::class.java))
                 requireActivity().finish()
             }
-        }, 3000)
+        }, 3200)
     }
 }
