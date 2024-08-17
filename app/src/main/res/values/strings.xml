@@ -13,4 +13,6 @@
     <string name="instructions">Instructions</string>
     <string name="meal_image">Meal image</string>
     <string name="search_for_a_meal">Search for a meal</string>
+    <string name="about">About</string>
+    <string name="sign_out">Sign out</string>
 </resources>
