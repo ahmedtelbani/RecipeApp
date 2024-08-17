@@ -7,8 +7,8 @@
         app:cardCornerRadius="22dp"
         app:cardMaxElevation="12dp"
         android:elevation="10dp"
+        android:layout_marginVertical="@dimen/margin_large"
         app:cardPreventCornerOverlap="true"
-        app:cardUseCompatPadding="true"
         >
 
         <LinearLayout
@@ -41,7 +41,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:layout_marginBottom="@dimen/margin_small"
+                android:layout_marginBottom="@dimen/margin_medium"
                 android:layout_marginHorizontal="@dimen/padding_large"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:src="@drawable/ic_favorite_border"
