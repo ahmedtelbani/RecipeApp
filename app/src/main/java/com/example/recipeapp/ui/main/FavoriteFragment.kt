@@ -8,18 +8,17 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recipeapp.R
+import com.example.recipeapp.data.model.Meal
+import com.example.recipeapp.ui.adapter.FoodAdapter
 import com.example.recipeapp.ui.viewmodel.RecipeViewModel
-import kotlinx.coroutines.launch
 
-class FavoriteFragment : Fragment() {
+class FavoriteFragment : Fragment(), FoodAdapter.OnMealItemClickListener {
     private val viewModel: RecipeViewModel by viewModels()
-    private lateinit var favoriteAdapter: MealAdapter
+    private lateinit var favoriteAdapter: FoodAdapter
     private lateinit var recyclerView: RecyclerView
     private lateinit var emptyTextView: TextView
     private lateinit var toolbar: Toolbar
@@ -40,30 +39,29 @@ class FavoriteFragment : Fragment() {
         emptyTextView = view.findViewById(R.id.emptyTextView)
         //viewModel.addTestMeal()
 
-        toolbar.setNavigationIcon(R.drawable.ic_back_arrow)
-        toolbar.setNavigationOnClickListener {
-            requireActivity().onBackPressed()
-        }
-        favoriteAdapter = MealAdapter(mutableListOf()) { meal ->
-            viewModel.deleteFavoriteMeal(meal)
-            viewModel.getAllFavoriteMeals()
-        }
+        toolbar.title = "Favorite"
+        favoriteAdapter = FoodAdapter(mutableListOf(), this)
 
         // Set up the RecyclerView with the adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = favoriteAdapter
 
-        viewModel.favoriteMealList.observe(viewLifecycleOwner, Observer { meals ->
+        viewModel.favoriteMealList.observe(viewLifecycleOwner) { meals ->
             if (meals.isEmpty()) {
                 emptyTextView.visibility = View.VISIBLE
                 recyclerView.visibility = View.GONE
             } else {
                 emptyTextView.visibility = View.GONE
                 recyclerView.visibility = View.VISIBLE
-                favoriteAdapter.updateMeals(meals)
+                // favoriteAdapter.updateMeals(meals)
             }
-        })
+        }
 
         viewModel.getAllFavoriteMeals()
+    }
+
+    override fun onMealItemClicked(meal: Meal) {
+        val action = FavoriteFragmentDirections.actionFavoriteFragmentToRecipeDetailFragment(meal.idMeal)
+        findNavController().navigate(action)
     }
 }

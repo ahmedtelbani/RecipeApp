@@ -5,6 +5,6 @@
     <color name="black_white">#FF000000</color>
     <color name="white_black">#FFFFFFFF</color>
     <color name="primaryColor">#00C738</color>
-    <color name="cardViewColor">#808080</color>
+    <color name="cardViewColor">#dedede</color>
     <color name="subtitleColor">#757575</color>
 </resources>
