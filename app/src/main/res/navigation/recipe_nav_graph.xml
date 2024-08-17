@@ -6,6 +6,10 @@
     android:id="@+id/nav_graph_main"
     app:startDestination="@id/homeFragment">
 
+    <action
+        android:id="@+id/action_global_aboutFragment"
+        app:destination="@id/aboutFragment" />
+
     <fragment
         android:id="@+id/favoriteFragment"
         android:name="com.example.recipeapp.ui.main.FavoriteFragment"
@@ -45,5 +49,11 @@
             android:id="@+id/action_searchFragment_to_recipeDetailFragment"
             app:destination="@id/recipeDetailFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/aboutFragment"
+        android:name="com.example.recipeapp.AboutFragment"
+        android:label="fragment_about"
+        tools:layout="@layout/fragment_about" />
 
 </navigation>
