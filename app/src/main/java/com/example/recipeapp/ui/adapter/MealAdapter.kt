@@ -11,10 +11,10 @@ import com.bumptech.glide.Glide
 import com.example.recipeapp.R
 import com.example.recipeapp.data.model.Meal
 
-class FoodAdapter (
+class MealAdapter (
     private val foodList: List<Meal>,
     private val listener: OnMealItemClickListener
-    ): RecyclerView.Adapter<FoodAdapter.FoodViewHolder>() {
+    ): RecyclerView.Adapter<MealAdapter.FoodViewHolder>() {
 
     interface OnMealItemClickListener {
         fun onMealItemClicked(meal: Meal)

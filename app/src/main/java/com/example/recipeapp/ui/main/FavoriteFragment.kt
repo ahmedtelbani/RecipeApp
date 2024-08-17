@@ -13,12 +13,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recipeapp.R
 import com.example.recipeapp.data.model.Meal
-import com.example.recipeapp.ui.adapter.FoodAdapter
+import com.example.recipeapp.ui.adapter.MealAdapter
 import com.example.recipeapp.ui.viewmodel.RecipeViewModel
 
-class FavoriteFragment : Fragment(), FoodAdapter.OnMealItemClickListener {
+class FavoriteFragment : Fragment(), MealAdapter.OnMealItemClickListener {
     private val viewModel: RecipeViewModel by viewModels()
-    private lateinit var favoriteAdapter: FoodAdapter
+    private lateinit var favoriteAdapter: MealAdapter
     private lateinit var recyclerView: RecyclerView
     private lateinit var emptyTextView: TextView
     private lateinit var toolbar: Toolbar
@@ -40,7 +40,7 @@ class FavoriteFragment : Fragment(), FoodAdapter.OnMealItemClickListener {
         //viewModel.addTestMeal()
 
         toolbar.title = "Favorite"
-        favoriteAdapter = FoodAdapter(mutableListOf(), this)
+        favoriteAdapter = MealAdapter(mutableListOf(), this)
 
         // Set up the RecyclerView with the adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())

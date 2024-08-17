@@ -11,10 +11,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recipeapp.R
 import com.example.recipeapp.data.model.Meal
-import com.example.recipeapp.ui.adapter.FoodAdapter
+import com.example.recipeapp.ui.adapter.MealAdapter
 import com.example.recipeapp.ui.viewmodel.RecipeViewModel
 
-class HomeFragment : Fragment(), FoodAdapter.OnMealItemClickListener {
+class HomeFragment : Fragment(), MealAdapter.OnMealItemClickListener {
     private lateinit var viewModel: RecipeViewModel
 
 
@@ -33,7 +33,7 @@ class HomeFragment : Fragment(), FoodAdapter.OnMealItemClickListener {
         val recyclerView: RecyclerView = view.findViewById(R.id.food_recycler_view)
         viewModel = ViewModelProvider(this).get(RecipeViewModel::class.java)
         viewModel.allMealList.observe(viewLifecycleOwner) { foodList ->
-            recyclerView.adapter = FoodAdapter(foodList, this)
+            recyclerView.adapter = MealAdapter(foodList, this)
         }
 
         recyclerView.layoutManager = LinearLayoutManager(requireContext())

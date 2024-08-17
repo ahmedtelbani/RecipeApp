@@ -1,9 +1,6 @@
 package com.example.recipeapp.ui.main
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -17,23 +14,20 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.recipeapp.R
 import com.example.recipeapp.data.model.Meal
 import com.example.recipeapp.ui.extensions.textChanges
-import com.example.recipeapp.ui.adapter.FoodAdapter
+import com.example.recipeapp.ui.adapter.MealAdapter
 import com.example.recipeapp.ui.viewmodel.RecipeViewModel
-import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.Job
 
-class SearchFragment : Fragment(), FoodAdapter.OnMealItemClickListener {
+class SearchFragment : Fragment(), MealAdapter.OnMealItemClickListener {
 
     private val recipeViewModel: RecipeViewModel by viewModels()
 
     private lateinit var searchEditText: EditText
     private lateinit var searchRecyclerView: RecyclerView
-    private lateinit var foodAdapter: FoodAdapter
+    private lateinit var foodAdapter: MealAdapter
 
     private var searchJob: Job? = null
 
@@ -69,7 +63,7 @@ class SearchFragment : Fragment(), FoodAdapter.OnMealItemClickListener {
     }
 
     private fun updateUI(items: List<Meal>) {
-        foodAdapter = FoodAdapter(items, this)
+        foodAdapter = MealAdapter(items, this)
         searchRecyclerView.adapter = foodAdapter
     }
 
