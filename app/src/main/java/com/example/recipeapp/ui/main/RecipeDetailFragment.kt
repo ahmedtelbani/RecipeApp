@@ -124,12 +124,12 @@ class RecipeDetailFragment : Fragment() {
             recipeMeasuresListView.visibility = View.GONE
             recipeIngredientsListView.visibility = View.GONE
             recipeInstructionsTextView.visibility = View.GONE
-            recipeVideoWebView.visibility = View.GONE
+//            recipeVideoWebView.visibility = View.GONE
         } else {
             recipeMeasuresListView.visibility = View.VISIBLE
             recipeIngredientsListView.visibility = View.VISIBLE
             recipeInstructionsTextView.visibility = View.VISIBLE
-            recipeVideoWebView.visibility = View.GONE
+//            recipeVideoWebView.visibility = View.GONE
 
         }
 
