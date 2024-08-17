@@ -8,14 +8,15 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recipeapp.R
-import com.example.recipeapp.ui.main.adapter.MealAdapter
+import com.example.recipeapp.data.model.Meal
+import com.example.recipeapp.ui.adapter.MealAdapter
 import com.example.recipeapp.ui.viewmodel.RecipeViewModel
 
-class FavoriteFragment : Fragment() {
+class FavoriteFragment : Fragment(), MealAdapter.OnMealItemClickListener {
     private val viewModel: RecipeViewModel by viewModels()
     private lateinit var favoriteAdapter: MealAdapter
     private lateinit var recyclerView: RecyclerView
@@ -39,26 +40,28 @@ class FavoriteFragment : Fragment() {
         //viewModel.addTestMeal()
 
         toolbar.title = "Favorite"
-        favoriteAdapter = MealAdapter(mutableListOf()) { meal ->
-            viewModel.deleteFavoriteMeal(meal)
-            viewModel.getAllFavoriteMeals()
-        }
+        favoriteAdapter = MealAdapter(mutableListOf(), this)
 
         // Set up the RecyclerView with the adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = favoriteAdapter
 
-        viewModel.favoriteMealList.observe(viewLifecycleOwner, Observer { meals ->
+        viewModel.favoriteMealList.observe(viewLifecycleOwner) { meals ->
             if (meals.isEmpty()) {
                 emptyTextView.visibility = View.VISIBLE
                 recyclerView.visibility = View.GONE
             } else {
                 emptyTextView.visibility = View.GONE
                 recyclerView.visibility = View.VISIBLE
-                favoriteAdapter.updateMeals(meals)
+                // favoriteAdapter.updateMeals(meals)
             }
-        })
+        }
 
         viewModel.getAllFavoriteMeals()
+    }
+
+    override fun onMealItemClicked(meal: Meal) {
+        val action = FavoriteFragmentDirections.actionFavoriteFragmentToRecipeDetailFragment(meal.idMeal)
+        findNavController().navigate(action)
     }
 }

@@ -7,9 +7,10 @@
     <string name="don_t_have_an_account_sign_up">Don\'t have an account?</string>
     <string name="sign_up"><u>Sign up</u></string>
     <string name="login"><u>Login</u></string>
-    <string name="catigory">Catigory</string>
+    <string name="catigory">Category</string>
     <string name="area">Area</string>
     <string name="show_more">Show More</string>
     <string name="instructions">Instructions</string>
-    <string name="meal_image">meal image</string>
+    <string name="meal_image">Meal image</string>
+    <string name="search_for_a_meal">Search for a meal</string>
 </resources>

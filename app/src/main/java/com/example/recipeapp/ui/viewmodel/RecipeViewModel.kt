@@ -25,10 +25,14 @@ class RecipeViewModel(application: Application): AndroidViewModel(application) {
 
     private val recipeRepository: RecipeRepository
 
-    private val _allMealList: MutableLiveData<List<Meal>> = MutableLiveData()
-    val allMealList: LiveData<List<Meal>> get() = _allMealList
     private val remoteDataSource : IRemoteDataSource = RemoteDataSource(RetrofitInstance.api)
     private val repository:IMealsRepository = MealsRepository(remoteDataSource)
+
+    private val _allMealList: MutableLiveData<List<Meal>> = MutableLiveData()
+    val allMealList: LiveData<List<Meal>> get() = _allMealList
+
+    private val _searchMealList: MutableLiveData<List<Meal>> = MutableLiveData()
+    val searchMealList: LiveData<List<Meal>> get() = _searchMealList
 
     private val _favoriteMealList: MutableLiveData<List<Meal>> = MutableLiveData()
     val favoriteMealList: LiveData<List<Meal>> get() = _favoriteMealList
@@ -50,6 +54,17 @@ class RecipeViewModel(application: Application): AndroidViewModel(application) {
                 val result = repository.getAllMeals()
                 _allMealList.postValue(result)
                 Log.i("getAllMeals",result.toString())
+            }catch (e: Exception){
+                Log.e("getAllMeals", e.toString())
+            }
+        }
+    }
+
+    fun searchForMeals(searchText: String){
+        viewModelScope.launch {
+            try {
+                val result = repository.searchMealsByName(searchText)
+                _searchMealList.postValue(result ?: listOf<Meal>())
             }catch (e: Exception){
                 Log.e("getAllMeals", e.toString())
             }
@@ -93,9 +108,9 @@ class RecipeViewModel(application: Application): AndroidViewModel(application) {
     val showFullRecipe: LiveData<Boolean> = _showFullRecipe
 
 
-    fun getMealById(id: Int) {
+    fun getMealById(id: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            val selectedMeal = recipeRepository.getMealById(id)
+            val selectedMeal = recipeRepository.getMealById(id.toInt())
             // switched context because i can't post value on IO thread
             withContext(Dispatchers.Main) {
                 _selectedRecipe.postValue(

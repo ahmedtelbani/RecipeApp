@@ -1,4 +1,4 @@
-package com.example.recipeapp.ui.main.adapter
+package com.example.recipeapp.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -10,23 +10,22 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.recipeapp.R
 import com.example.recipeapp.data.model.Meal
-import com.example.recipeapp.ui.viewmodel.RecipeViewModel
 
-class FoodAdapter (
+class MealAdapter (
     private val foodList: List<Meal>,
-    private val viewModel: RecipeViewModel) :
-    RecyclerView.Adapter<FoodAdapter.FoodViewHolder>() {
+    private val listener: OnMealItemClickListener
+    ): RecyclerView.Adapter<MealAdapter.FoodViewHolder>() {
 
-    class FoodViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val foodImage: ImageView = view.findViewById(R.id.mealImageView)
-        val foodName: TextView = view.findViewById(R.id.mealNameTextView)
-        val favoriteButton: ImageButton = view.findViewById(R.id.heartButton)
+    interface OnMealItemClickListener {
+        fun onMealItemClicked(meal: Meal)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FoodViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_food, parent, false)
         return FoodViewHolder(view)
     }
+
+    override fun getItemCount() = foodList.size
 
     override fun onBindViewHolder(holder: FoodViewHolder, position: Int) {
         val foodItem = foodList[position]
@@ -36,12 +35,19 @@ class FoodAdapter (
             .load(foodItem.strMealThumb)
             .into(holder.foodImage)
 
+        holder.itemView.setOnClickListener {
+            listener.onMealItemClicked(foodItem)
+        }
+
         holder.favoriteButton.setOnClickListener {
-            // Handle favorite click
-//            viewModel.addFavoriteMeal(foodItem)
+            // handle favorite action
         }
     }
 
 
-    override fun getItemCount(): Int = foodList.size
+    class FoodViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val foodImage: ImageView = view.findViewById(R.id.mealImageView)
+        val foodName: TextView = view.findViewById(R.id.mealNameTextView)
+        val favoriteButton: ImageButton = view.findViewById(R.id.heartButton)
+    }
 }
