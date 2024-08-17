@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph_main"
     app:startDestination="@id/homeFragment">
+
     <fragment
         android:id="@+id/favoriteFragment"
         android:name="com.example.recipeapp.ui.main.FavoriteFragment"
         android:label="FavoriteFragment"
-        tools:layout="@layout/fragment_favorite">
+        tools:layout="@layout/fragment_favorite" >
         <action
-            android:id="@+id/action_favoriteFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
+            android:id="@+id/action_favoriteFragment_to_recipeDetailFragment"
+            app:destination="@id/recipeDetailFragment" />
     </fragment>
 
     <fragment
@@ -22,15 +24,8 @@
         <action
             android:id="@+id/action_homeFragment_to_recipeDetailFragment"
             app:destination="@id/recipeDetailFragment" />
-
-        <action
-            android:id="@+id/action_homeFragment_to_favoriteFragment"
-            app:destination="@id/favoriteFragment" />
-
-        <action
-            android:id="@+id/action_homeFragment_to_searchFragment"
-            app:destination="@id/searchFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/recipeDetailFragment"
         android:name="com.example.recipeapp.ui.main.RecipeDetailFragment"
@@ -38,21 +33,17 @@
         tools:layout="@layout/fragment_recipe_detail" >
         <argument
             android:name="selectedMealId"
-            app:argType="integer" />
-        <action
-            android:id="@+id/action_recipeDetailFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
-
-
+            app:argType="string" />
     </fragment>
+
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.example.recipeapp.ui.main.SearchFragment"
         android:label="fragment_search"
         tools:layout="@layout/fragment_search" >
         <action
-            android:id="@+id/action_searchFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
+            android:id="@+id/action_searchFragment_to_recipeDetailFragment"
+            app:destination="@id/recipeDetailFragment" />
     </fragment>
 
 </navigation>

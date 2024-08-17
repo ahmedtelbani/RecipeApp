@@ -1,17 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white_black"
+    android:paddingVertical="20dp"
+    android:paddingHorizontal="10dp"
     tools:context=".ui.main.SearchFragment">
 
-    <TextView
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        tools:text="Search"
-        android:textSize="40sp"
+        android:layout_height="0dp"
+        android:paddingVertical="12dp"
+        app:boxCornerRadiusBottomEnd="12dp"
+        app:boxCornerRadiusBottomStart="12dp"
+        app:boxCornerRadiusTopEnd="12dp"
+        app:boxCornerRadiusTopStart="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:startIconDrawable="@drawable/ic_search"
+        app:startIconTint="@color/primaryColor"
+        app:hintTextColor="@color/primaryColor"
+        app:boxStrokeColor="@color/search_edit_text_border_color"
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/search_et_mealSearch"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:autofillHints="name"
+            android:padding="8dp"
+            android:hint="@string/search_for_a_meal"
+            android:inputType="text"
+            android:textColor="@color/black_white"
+            android:textSize="18sp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/search_rv_mealList"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textInputLayout"
         />
 
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

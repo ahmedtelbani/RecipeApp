@@ -1,4 +1,4 @@
-package com.example.recipeapp.ui.main
+package com.example.recipeapp.ui.auth
 
 import android.content.Intent
 import android.os.Bundle
