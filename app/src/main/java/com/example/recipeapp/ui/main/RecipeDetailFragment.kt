@@ -105,8 +105,8 @@ class RecipeDetailFragment : Fragment() {
 
     }
 
-    private fun filterNotEmptyOrNotBlank(list: List<String>): List<String> {
-        return list.filter { it.isNotEmpty() || it.isNotBlank() }
+    private fun filterNotEmptyOrNotBlank(list: List<String?>): List<String> {
+        return list.filterNotNull().filter { it.isNotEmpty() && it.isNotBlank() }
     }
 
     private fun setItemsVisibility(isVisible: Boolean) {
