@@ -10,13 +10,16 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recipeapp.R
+import com.example.recipeapp.data.model.Categories
 import com.example.recipeapp.data.model.Meal
+import com.example.recipeapp.ui.adapter.CategoryAdapter
 import com.example.recipeapp.ui.adapter.MealAdapter
 import com.example.recipeapp.ui.viewmodel.RecipeViewModel
 
-class HomeFragment : Fragment(), MealAdapter.OnMealItemClickListener {
+class HomeFragment : Fragment(),
+    MealAdapter.OnMealItemClickListener,
+    CategoryAdapter.OnCategoryItemClickListener{
     private lateinit var viewModel: RecipeViewModel
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,9 +38,17 @@ class HomeFragment : Fragment(), MealAdapter.OnMealItemClickListener {
         viewModel.allMealList.observe(viewLifecycleOwner) { foodList ->
             recyclerView.adapter = MealAdapter(foodList, this)
         }
-
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
+        val categoryRecyclerView : RecyclerView = view.findViewById(R.id.category_recycler_view)
+        viewModel = ViewModelProvider(this).get(RecipeViewModel::class.java)
+        viewModel.categoryList.observe(viewLifecycleOwner) { categoryList ->
+            categoryRecyclerView.adapter = CategoryAdapter(categoryList, this)
+        }
+        categoryRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+
+        //get categories
+        viewModel.getCategories()
         //get All Meals
         viewModel.getAllMeals()
     }
@@ -45,5 +56,9 @@ class HomeFragment : Fragment(), MealAdapter.OnMealItemClickListener {
     override fun onMealItemClicked(meal: Meal) {
         val action = HomeFragmentDirections.actionHomeFragmentToRecipeDetailFragment(meal.idMeal)
         findNavController().navigate(action)
+    }
+
+    override fun onCategoryItemClicked(category: Categories) {
+
     }
 }

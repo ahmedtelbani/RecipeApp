@@ -12,6 +12,8 @@ interface RecipeApi {
     @GET("search.php?s=")
     suspend fun getAllMeals(): ResponseObject
 
+    @GET("categories.php")
+    suspend fun getCategories(): ResponseObject
 
     @GET("lookup.php")
     suspend fun getMealById(@Query("i")  mealId: Int): ResponseObject
