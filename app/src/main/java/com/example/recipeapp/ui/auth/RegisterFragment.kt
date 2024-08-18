@@ -16,6 +16,7 @@ import com.example.recipeapp.R
 import com.example.recipeapp.data.model.User
 import com.example.recipeapp.databinding.FragmentRegisterBinding
 import com.example.recipeapp.ui.viewmodel.AuthViewModel
+import com.example.recipeapp.util.AuthHelper
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -50,13 +51,12 @@ class RegisterFragment : Fragment() {
             var email = binding.emailEditText.text.toString()
             var password = binding.passwordEditText.text.toString()
             var confirmedPassword = binding.confirmPasswordEditText.text.toString()
+            var authHelper = AuthHelper(email, password, confirmedPassword)
             if (username.isBlank() || password.isBlank() || email.isBlank() || confirmedPassword.isBlank()) {
                 Snackbar.make(binding.root, "Please fill all the Inputs", Snackbar.LENGTH_LONG)
                     .setBackgroundTint(resources.getColor(R.color.primaryColor)).show()
             } else {
-                if (!email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$".toRegex()) && !password.matches(
-                        "^(?=.*[A-Z])(?=(.*\\d){3,})(?=.{8,15}$).*$".toRegex()
-                    )
+                if (!authHelper.isEmailValid() && !authHelper.isPasswordValid()
                 ) {
                     Snackbar.make(
                         binding.root,
@@ -64,21 +64,18 @@ class RegisterFragment : Fragment() {
                         Snackbar.LENGTH_LONG
                     )
                         .setBackgroundTint(resources.getColor(R.color.primaryColor)).show()
-                } else if (!email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$".toRegex())) {
+                } else if (!authHelper.isEmailValid()) {
                     Snackbar.make(binding.root, "Invalid Email", Snackbar.LENGTH_LONG)
                         .setBackgroundTint(resources.getColor(R.color.primaryColor)).show()
-                } else if (!password.matches(
-                        "^(?=.*[A-Z])(?=(.*\\d){3,})(?=.{8,15}$).*$".toRegex()
-                    )
-                ) {
+                } else if (authHelper.isPasswordValid()) {
                     Snackbar.make(
                         binding.root,
-                        "The password must contain one capital letter, 3 numbers and be between 8-15 characters",
+                        "The password must contain at least one capital letter, one number and be between 8 - 15 characters",
                         Snackbar.LENGTH_LONG
                     ).setBackgroundTint(resources.getColor(R.color.primaryColor))
                         .show()
                 } else {
-                    if (password != confirmedPassword) {
+                    if (!authHelper.arePasswordsMatching()) {
                         Snackbar.make(
                             binding.root,
                             "The passwords doesn't match!",
@@ -118,7 +115,7 @@ class RegisterFragment : Fragment() {
                                 )
                                 Snackbar.make(
                                     binding.root,
-                                    "Login successful",
+                                    "Account Created successfully",
                                     Snackbar.LENGTH_LONG
                                 ).setBackgroundTint(resources.getColor(R.color.primaryColor))
                                     .show()
