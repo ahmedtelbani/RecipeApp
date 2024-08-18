@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,7 +20,7 @@ import com.example.recipeapp.ui.viewmodel.RecipeViewModel
 class HomeFragment : Fragment(),
     MealAdapter.OnMealItemClickListener,
     CategoryAdapter.OnCategoryItemClickListener{
-    private lateinit var viewModel: RecipeViewModel
+    private val viewModel: RecipeViewModel by viewModels() // ViewModel initialization
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,22 +35,28 @@ class HomeFragment : Fragment(),
         super.onViewCreated(view, savedInstanceState)
 
         val recyclerView: RecyclerView = view.findViewById(R.id.food_recycler_view)
-        viewModel = ViewModelProvider(this).get(RecipeViewModel::class.java)
-        viewModel.allMealList.observe(viewLifecycleOwner) { foodList ->
-            recyclerView.adapter = MealAdapter(foodList, this)
+        val categoryRecyclerView : RecyclerView = view.findViewById(R.id.category_recycler_view)
+
+        // Pass the ViewModel to the adapter
+        val mealAdapter = MealAdapter(listOf(), this, viewModel)
+
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        recyclerView.adapter = mealAdapter
+
+        // Observe the meals from ViewModel and update the adapter
+        viewModel.allMealList.observe(viewLifecycleOwner) { meals ->
+            mealAdapter.updateMeals(meals)
         }
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        val categoryRecyclerView : RecyclerView = view.findViewById(R.id.category_recycler_view)
-        viewModel = ViewModelProvider(this).get(RecipeViewModel::class.java)
         viewModel.categoryList.observe(viewLifecycleOwner) { categoryList ->
             categoryRecyclerView.adapter = CategoryAdapter(categoryList, this)
         }
         categoryRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
-        //get categories
+        //Fetch categories
         viewModel.getCategories()
-        //get All Meals
+        // Fetch all meals
         viewModel.getAllMeals()
     }
 

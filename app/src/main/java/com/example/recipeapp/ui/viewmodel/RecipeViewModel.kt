@@ -4,6 +4,7 @@ import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.recipeapp.data.database.RecipeDatabase
@@ -43,6 +44,7 @@ class RecipeViewModel(application: Application): AndroidViewModel(application) {
 
     private val _favoriteMealListIds: MutableLiveData<List<String>> = MutableLiveData()
     val favoriteMealListIds: LiveData<List<String>> get() = _favoriteMealListIds
+
 
 
     init {
@@ -112,6 +114,10 @@ class RecipeViewModel(application: Application): AndroidViewModel(application) {
         }
         return meal.idMeal
     }
+    fun isMealFavorite(mealId: String): LiveData<Boolean> {
+        return recipeRepository.isMealFavorite(mealId)
+    }
+
 
     // ---------------------------
     // Recipe Details Screen
@@ -141,6 +147,7 @@ class RecipeViewModel(application: Application): AndroidViewModel(application) {
     fun switchShowFullRecipe() {
         setShowFullRecipe(!showFullRecipe.value!!)
     }
+
 
 
 }

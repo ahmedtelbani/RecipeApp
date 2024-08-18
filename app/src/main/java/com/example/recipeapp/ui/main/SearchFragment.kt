@@ -63,9 +63,10 @@ class SearchFragment : Fragment(), MealAdapter.OnMealItemClickListener {
     }
 
     private fun updateUI(items: List<Meal>) {
-        foodAdapter = MealAdapter(items, this)
+        foodAdapter = MealAdapter(items, this, recipeViewModel)
         searchRecyclerView.adapter = foodAdapter
     }
+
 
     override fun onMealItemClicked(meal: Meal) {
         val action = SearchFragmentDirections.actionSearchFragmentToRecipeDetailFragment(meal.idMeal)

@@ -1,5 +1,6 @@
 package com.example.recipeapp.data.database
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -21,5 +22,8 @@ interface RecipeDao {
 
     @Delete
     suspend fun deleteFavoriteMeal(meal: Meal)
+
+    @Query("SELECT * FROM FavoriteMeals WHERE idMeal = :mealId LIMIT 1")
+    fun isMealFavorite(mealId: String): LiveData<Meal?>
 
 }
