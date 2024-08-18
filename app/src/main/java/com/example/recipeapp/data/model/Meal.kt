@@ -62,6 +62,12 @@ data class Meal(
     val strYoutube: String?
 ): Serializable
 
+data class Categories(
+    val idCategory: String,
+    val strCategory: String,
+    val strCategoryThumb: String,
+    val strCategoryDescription: String,
+)
 
 fun Meal.getIngredients(): Array<String?> {
     return arrayOf(

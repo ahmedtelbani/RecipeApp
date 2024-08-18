@@ -8,6 +8,7 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.recipeapp.data.database.RecipeDatabase
+import com.example.recipeapp.data.model.Categories
 import com.example.recipeapp.data.model.Meal
 import com.example.recipeapp.data.repository.RecipeRepository
 import com.example.recipeapp.network.api.IMealsRepository
@@ -31,6 +32,9 @@ class RecipeViewModel(application: Application): AndroidViewModel(application) {
 
     private val _allMealList: MutableLiveData<List<Meal>> = MutableLiveData()
     val allMealList: LiveData<List<Meal>> get() = _allMealList
+
+    private val _categoryList: MutableLiveData<List<Categories>> = MutableLiveData()
+    val categoryList: LiveData<List<Categories>> get() = _categoryList
 
     private val _searchMealList: MutableLiveData<List<Meal>> = MutableLiveData()
     val searchMealList: LiveData<List<Meal>> get() = _searchMealList
@@ -58,6 +62,18 @@ class RecipeViewModel(application: Application): AndroidViewModel(application) {
                 Log.i("getAllMeals",result.toString())
             }catch (e: Exception){
                 Log.e("getAllMeals", e.toString())
+            }
+        }
+    }
+
+    fun getCategories(){
+        viewModelScope.launch {
+            try {
+                val result = repository.getCategories()
+                _categoryList.postValue(result)
+                Log.i("getCategories",result.toString())
+            }catch (e: Exception){
+                Log.e("getCategories", e.toString())
             }
         }
     }
