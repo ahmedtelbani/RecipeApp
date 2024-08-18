@@ -6,14 +6,19 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.recipeapp.R
 import com.example.recipeapp.data.model.Meal
+import com.example.recipeapp.ui.viewmodel.RecipeViewModel
 
 class MealAdapter (
-    private val foodList: List<Meal>,
-    private val listener: OnMealItemClickListener
+    private var foodList: List<Meal>,
+    private val listener: OnMealItemClickListener,
+    private val viewModel: RecipeViewModel // Pass the ViewModel to the adapter
+
     ): RecyclerView.Adapter<MealAdapter.FoodViewHolder>() {
 
     interface OnMealItemClickListener {
@@ -29,19 +34,36 @@ class MealAdapter (
 
     override fun onBindViewHolder(holder: FoodViewHolder, position: Int) {
         val foodItem = foodList[position]
+
         holder.foodName.text = foodItem.strMeal
 
         Glide.with(holder.foodImage.context)
             .load(foodItem.strMealThumb)
             .into(holder.foodImage)
 
+
         holder.itemView.setOnClickListener {
             listener.onMealItemClicked(foodItem)
         }
 
-        holder.favoriteButton.setOnClickListener {
-            // handle favorite action
+        viewModel.isMealFavorite(foodItem.idMeal).observe(holder.itemView.context as LifecycleOwner) { isFavorite ->
+            holder.favoriteButton.setImageResource(
+                if (isFavorite) R.drawable.ic_favorite else R.drawable.ic_favorite_border
+            )
+
+            holder.favoriteButton.setOnClickListener {
+                if (isFavorite) {
+                    viewModel.deleteFavoriteMeal(foodItem)
+                } else {
+                    viewModel.addFavoriteMeal(foodItem)
+                }
+            }
         }
+    }
+
+    fun updateMeals(newMeals: List<Meal>) {
+        this.foodList = newMeals
+        notifyDataSetChanged()  // Notify the adapter that the data has changed
     }
 
 

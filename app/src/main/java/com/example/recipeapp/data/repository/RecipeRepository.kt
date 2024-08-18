@@ -1,5 +1,7 @@
 package com.example.recipeapp.data.repository
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import com.example.recipeapp.data.database.RecipeDao
 import com.example.recipeapp.data.model.Meal
 import com.example.recipeapp.network.api.RemoteDataSource
@@ -33,6 +35,13 @@ class RecipeRepository(
     // online related
     suspend fun getMealById(id: Int): Meal? {
         return remoteDataSource.getMealById(id)
+    }
+    fun isMealFavorite(mealId: String): LiveData<Boolean> {
+        val result = MediatorLiveData<Boolean>()
+        result.addSource(recipeDao.isMealFavorite(mealId)) { meal ->
+            result.value = meal != null
+        }
+        return result
     }
 
 }
