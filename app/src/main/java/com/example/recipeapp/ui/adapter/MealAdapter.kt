@@ -66,6 +66,16 @@ class MealAdapter (
         notifyDataSetChanged()  // Notify the adapter that the data has changed
     }
 
+    fun filterMeals(query: String,originalMealList: List<Meal>) {
+        val filteredList = if (originalMealList.isEmpty()) {
+            originalMealList
+        } else {
+            originalMealList.filter { meal ->
+                meal.strCategory.contains(query, ignoreCase = true)
+            }
+        }
+        updateMeals(filteredList)
+    }
 
     class FoodViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val foodImage: ImageView = view.findViewById(R.id.mealImageView)

@@ -107,7 +107,7 @@ class RecipeDetailFragment : Fragment() {
         recipeIngredientsListView.adapter = ingredientsListAdapter
         recipeMeasuresListView.adapter = measuresListAdapter
 
-        val videoUrl = "<iframe width=\"100%\" height=\"100%\" src=\"${convertToEmbedUrl(meal.strYoutube)}\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>"
+        val videoUrl = "<iframe width=\"100%\" height=\"100%\" src=\"${convertToEmbedUrl(meal.strYoutube!!)}\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>"
         recipeVideoWebView.loadData(videoUrl, "text/html", "utf-8")
         recipeVideoWebView.settings.javaScriptEnabled = true
         recipeVideoWebView.webChromeClient = WebChromeClient()

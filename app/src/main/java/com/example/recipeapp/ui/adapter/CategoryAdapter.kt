@@ -31,7 +31,7 @@ class CategoryAdapter(
 
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
         val categoryItem = categoryList[position]
-        holder.foodName.text = categoryItem.strCategory
+        holder.categoryName.text = categoryItem.strCategory
 
         Glide.with(holder.categoryImage.context)
             .load(categoryItem.strCategoryThumb)
@@ -45,6 +45,6 @@ class CategoryAdapter(
 
     class CategoryViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val categoryImage: ImageView = view.findViewById(R.id.categoryImageView)
-        val foodName: TextView = view.findViewById(R.id.categoryNameTextView)
+        val categoryName: TextView = view.findViewById(R.id.categoryNameTextView)
     }
 }
