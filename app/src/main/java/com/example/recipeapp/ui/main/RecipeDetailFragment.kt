@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebChromeClient
+import android.webkit.WebView
 import android.widget.ArrayAdapter
 
 import android.widget.Button
@@ -35,6 +37,7 @@ class RecipeDetailFragment : Fragment() {
     lateinit var recipeMeasuresListView: ListView
     lateinit var recipeInstructionsTextView: TextView
     lateinit var showMoreButton: Button
+    lateinit var recipeVideoWebView: WebView
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -71,6 +74,7 @@ class RecipeDetailFragment : Fragment() {
         recipeMeasuresListView = view.findViewById(R.id.lv_measures)
         recipeInstructionsTextView = view.findViewById(R.id.tv_recipe_instructions)
         showMoreButton = view.findViewById(R.id.btn_show_full_recipe)
+        recipeVideoWebView = view.findViewById(R.id.wv_recipe_video)
     }
 
     private fun updateMealUI(meal: Meal) {
@@ -103,6 +107,12 @@ class RecipeDetailFragment : Fragment() {
         recipeIngredientsListView.adapter = ingredientsListAdapter
         recipeMeasuresListView.adapter = measuresListAdapter
 
+        val videoUrl = "<iframe width=\"100%\" height=\"100%\" src=\"${convertToEmbedUrl(meal.strYoutube)}\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>"
+        recipeVideoWebView.loadData(videoUrl, "text/html", "utf-8")
+        recipeVideoWebView.settings.javaScriptEnabled = true
+        recipeVideoWebView.webChromeClient = WebChromeClient()
+
+
     }
 
     private fun filterNotEmptyOrNotBlank(list: List<String?>): List<String> {
@@ -114,11 +124,25 @@ class RecipeDetailFragment : Fragment() {
             recipeMeasuresListView.visibility = View.GONE
             recipeIngredientsListView.visibility = View.GONE
             recipeInstructionsTextView.visibility = View.GONE
+//            recipeVideoWebView.visibility = View.GONE
         } else {
             recipeMeasuresListView.visibility = View.VISIBLE
             recipeIngredientsListView.visibility = View.VISIBLE
             recipeInstructionsTextView.visibility = View.VISIBLE
+//            recipeVideoWebView.visibility = View.GONE
+
         }
 
+    }
+
+    fun convertToEmbedUrl(youtubeUrl: String): String {
+        val videoIdRegex = Regex("(?<=v=)[\\w-]+")
+        val videoId = videoIdRegex.find(youtubeUrl)?.value
+
+        return if (videoId != null) {
+            "https://www.youtube.com/embed/$videoId"
+        } else {
+            throw IllegalArgumentException("Invalid YouTube URL")
+        }
     }
 }
