@@ -11,7 +11,7 @@ class RemoteDataSource(
     }
 
     override suspend fun getCategories(): List<Categories> {
-        return api.getCategories().categories ?: emptyList()
+        return api.getCategories().categories
     }
 
     override suspend fun getMealById(mealId: Int): Meal? {

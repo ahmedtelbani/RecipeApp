@@ -3,15 +3,12 @@ package com.example.recipeapp.ui.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.recipeapp.R
 import com.example.recipeapp.data.model.Categories
-import com.example.recipeapp.data.model.Meal
-import com.example.recipeapp.ui.adapter.MealAdapter.OnMealItemClickListener
 
 class CategoryAdapter(
     private val categoryList: List<Categories>,

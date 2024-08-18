@@ -15,4 +15,6 @@
     <string name="search_for_a_meal">Search for a meal</string>
     <string name="about">About</string>
     <string name="sign_out">Sign out</string>
+    <string name="category_meals">Category Meals</string>
+    <string name="all_meals">All Meals</string>
 </resources>
