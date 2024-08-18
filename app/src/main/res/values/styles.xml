@@ -8,10 +8,6 @@
         <item name="colorAccent">@color/cardview_shadow_end_color</item>
     </style>
 
-    <style name="LoginTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <!-- Customize your login screen theme here -->
-    </style>
-
     <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowBackground">@color/white</item>
     </style>

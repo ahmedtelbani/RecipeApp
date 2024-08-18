@@ -1,6 +1,10 @@
 package com.example.recipeapp.util
 
-class AuthHelper(var email: String, var password: String, var confirmedPassword: String) {
+class AuthHelper(
+    private val email: String,
+    private val password: String,
+    private val confirmedPassword: String
+) {
 
     fun isEmailValid(): Boolean {
         return email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$".toRegex())
@@ -8,11 +12,16 @@ class AuthHelper(var email: String, var password: String, var confirmedPassword:
 
     fun isPasswordValid(): Boolean {
         return password.matches(
-            "^(?=.*[A-Z])(?=.*\\d)[A-Za-z\\d]{8,15}$".toRegex()
+            "^(?=.*[A-Z])(?=.*\\d)[A-Za-z\\d]{8,}$".toRegex()
         )
     }
 
     fun arePasswordsMatching(): Boolean {
         return password == confirmedPassword
     }
+
+    fun getCurrentTimestamp(): Long {
+        return System.currentTimeMillis()
+    }
+
 }

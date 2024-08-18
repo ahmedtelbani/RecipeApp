@@ -8,14 +8,12 @@ import android.view.ViewGroup
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.widget.ArrayAdapter
-
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.ListView
 import android.widget.TextView
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
-import androidx.transition.Visibility
 import com.bumptech.glide.Glide
 import com.example.recipeapp.R
 import com.example.recipeapp.data.model.Meal
@@ -25,19 +23,19 @@ import com.example.recipeapp.ui.viewmodel.RecipeViewModel
 
 class RecipeDetailFragment : Fragment() {
 
-    val args: RecipeDetailFragmentArgs by navArgs()
-    val viewModel: RecipeViewModel by viewModels()
+    private val args: RecipeDetailFragmentArgs by navArgs()
+    private val viewModel: RecipeViewModel by viewModels()
 
     // UI elements
-    lateinit var recipeImageView: ImageView
-    lateinit var recipeTitleTextView: TextView
-    lateinit var recipeAreaTextView: TextView
-    lateinit var recipeCategoryTextView: TextView
-    lateinit var recipeIngredientsListView: ListView
-    lateinit var recipeMeasuresListView: ListView
-    lateinit var recipeInstructionsTextView: TextView
-    lateinit var showMoreButton: Button
-    lateinit var recipeVideoWebView: WebView
+    private lateinit var recipeImageView: ImageView
+    private lateinit var recipeTitleTextView: TextView
+    private lateinit var recipeAreaTextView: TextView
+    private lateinit var recipeCategoryTextView: TextView
+    private lateinit var recipeIngredientsListView: ListView
+    private lateinit var recipeMeasuresListView: ListView
+    private lateinit var recipeInstructionsTextView: TextView
+    private lateinit var showMoreButton: Button
+    private lateinit var recipeVideoWebView: WebView
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -107,7 +105,7 @@ class RecipeDetailFragment : Fragment() {
         recipeIngredientsListView.adapter = ingredientsListAdapter
         recipeMeasuresListView.adapter = measuresListAdapter
 
-        val videoUrl = "<iframe width=\"100%\" height=\"100%\" src=\"${convertToEmbedUrl(meal.strYoutube)}\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>"
+        val videoUrl = "<iframe width=\"100%\" height=\"100%\" src=\"${convertToEmbedUrl(meal.strYoutube!!)}\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>"
         recipeVideoWebView.loadData(videoUrl, "text/html", "utf-8")
         recipeVideoWebView.settings.javaScriptEnabled = true
         recipeVideoWebView.webChromeClient = WebChromeClient()
@@ -135,7 +133,7 @@ class RecipeDetailFragment : Fragment() {
 
     }
 
-    fun convertToEmbedUrl(youtubeUrl: String): String {
+    private fun convertToEmbedUrl(youtubeUrl: String): String {
         val videoIdRegex = Regex("(?<=v=)[\\w-]+")
         val videoId = videoIdRegex.find(youtubeUrl)?.value
 
