@@ -61,56 +61,19 @@ class RecipeViewModel(application: Application): AndroidViewModel(application) {
     fun getAllMeals(){
         viewModelScope.launch {
             try {
-
-/*
-                if(isInternetAvailable(application)) {
-                    handleApiResponseUiLogic(
-                        repository.getAllMeals(),
-                        onSuccess = { result ->
-                            _allMealList.postValue(result.meals!!)
-                        },
-                        onHttpError = { code: Int, message: String ->
-                            // handle the error UI logic
-                        },
-                        onUnknownError = {
-                            // handle something went wrong but we have info about it
-                        },
-                        onSomethingElseHappen = {
-                            // handle something went wrong but we don't know what happened
-                        }
-                    )
-
-                    handleApiResponseUiLogic(
-                        repository.getAllMeals(),
-                        onSuccess = {
-                            _allMealList.postValue(it.meals!!)
-                        }
-                    )
-                }
-                else {
-                    //
-                }
-
-*/
-
-//                if(isInternetAvailable(application)) {
-                    handleApiResponseUiLogic(
-                        repository.getAllMeals(),
-                        onSuccess = {
-                            _allMealList.postValue(it.meals!!)
-                        },
-                        onHttpError = { code, message -> Log.d("boodyNew", "$code, $message")},
-                        onUnknownError = {e -> Log.d("boodyNew", "${e.message}")},
-                        onSomethingElseHappen = {Log.d("boodyNew", "Something Wrong Happened")}
-                    )
-//                } else {
-//                    Log.d("boodyNew", "No Internet")
-//                }
-
+                handleApiResponseUiLogic(
+                    repository.getAllMeals(),
+                    onSuccess = {
+                        _allMealList.postValue(it.meals!!)
+                    },
+                    onHttpError = { code, message -> Log.d("boodyNew", "$code, $message")},
+                    onUnknownError = {e -> Log.d("boodyNew", "${e.message}")},
+                    onSomethingElseHappen = {Log.d("boodyNew", "Something Wrong Happened")}
+                )
                 /*val result = repository.getAllMeals()
                 _allMealList.postValue(result)
                 Log.i("getAllMeals",result.toString())*/
-            }catch (e: Exception){
+            } catch (e: Exception){
                 Log.e("getAllMeals", e.toString())
             }
         }
@@ -131,25 +94,15 @@ class RecipeViewModel(application: Application): AndroidViewModel(application) {
     fun searchForMeals(searchText: String){
         viewModelScope.launch {
             try {
-
-//                if(isInternetAvailable(application)) {
-                    handleApiResponseUiLogic(
-                        repository.searchMealsByName(searchText),
-                        onSuccess = { data: ResponseObject ->
-                               _searchMealList.postValue(data.meals!!)
-                        },
-                        onHttpError = { code, message -> Log.d("boodyNew", "$code, $message")},
-                        onUnknownError = {e -> Log.d("boodyNew", "${e.message}")},
-                        onSomethingElseHappen = {Log.d("boodyNew", "Something Wrong Happened")}
-
-                    )
-//                } else {
-                    // nointernet
-//                    Log.d("boodyNew", "No Internet")
-//                }
-
-
-
+                handleApiResponseUiLogic(
+                    repository.searchMealsByName(searchText),
+                    onSuccess = { data: ResponseObject ->
+                           _searchMealList.postValue(data.meals!!)
+                    },
+                    onHttpError = { code, message -> Log.d("boodyNew", "$code, $message")},
+                    onUnknownError = {e -> Log.d("boodyNew", "${e.message}")},
+                    onSomethingElseHappen = {Log.d("boodyNew", "Something Wrong Happened")}
+                )
                 /*val result = repository.searchMealsByName(searchText)
                 _searchMealList.postValue(result ?: listOf<Meal>())*/
             }catch (e: Exception){
@@ -188,9 +141,9 @@ class RecipeViewModel(application: Application): AndroidViewModel(application) {
     }
 
 
-    // ---------------------------
-    // Recipe Details Screen
-    // ---------------------------
+    // ---------------------------------------------------------------------------------------------
+    // Recipe Details Screen START
+    // ---------------------------------------------------------------------------------------------
 
     private val _selectedRecipe: MutableLiveData<Meal?> = MutableLiveData()
     val selectedRecipe: LiveData<Meal?> = _selectedRecipe
@@ -201,30 +154,17 @@ class RecipeViewModel(application: Application): AndroidViewModel(application) {
 
     fun getMealById(id: String) {
         viewModelScope.launch(Dispatchers.IO) {
-//            if(isInternetAvailable(application)) {
-                handleApiResponseUiLogic(
-                    recipeRepository.getMealById(id.toInt()),
-                    onSuccess = { response ->
-                        _selectedRecipe.postValue(
-                            response.meals?.first()
-                        )
-                    },
-                    onHttpError = { code, message -> Log.d("boodyNew", "$code, $message")},
-                    onUnknownError = {e -> Log.d("boodyNew", "${e.message}")},
-                    onSomethingElseHappen = {Log.d("boodyNew", "Something Wrong Happened")}
-                )
-//            } else {
-//                Log.d("boodyNew", "No Internet")
-//            }
-
-
-            /*val selectedMeal = recipeRepository.getMealById(id.toInt())
-            // switched context because i can't post value on IO thread
-            withContext(Dispatchers.Main) {
-                _selectedRecipe.postValue(
-                    selectedMeal
-                )
-            }*/
+            handleApiResponseUiLogic(
+                recipeRepository.getMealById(id.toInt()),
+                onSuccess = { response ->
+                    _selectedRecipe.postValue(
+                        response.meals?.first()
+                    )
+                },
+                onHttpError = { code, message -> Log.d("boodyNew", "$code, $message")},
+                onUnknownError = {e -> Log.d("boodyNew", "${e.message}")},
+                onSomethingElseHappen = {Log.d("boodyNew", "Something Wrong Happened")}
+            )
         }
     }
 
@@ -233,6 +173,10 @@ class RecipeViewModel(application: Application): AndroidViewModel(application) {
     fun switchShowFullRecipe() {
         setShowFullRecipe(!showFullRecipe.value!!)
     }
+
+    // ---------------------------------------------------------------------------------------------
+    // Recipe Details Screen END
+    // ---------------------------------------------------------------------------------------------
 
 
 
