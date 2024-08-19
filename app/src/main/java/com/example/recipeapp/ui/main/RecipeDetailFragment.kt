@@ -22,6 +22,7 @@ import com.example.recipeapp.data.model.Meal
 import com.example.recipeapp.data.model.getIngredients
 import com.example.recipeapp.data.model.getMeasures
 import com.example.recipeapp.ui.viewmodel.RecipeViewModel
+import com.example.recipeapp.util.isInternetAvailable
 
 class RecipeDetailFragment : Fragment() {
 
@@ -48,22 +49,29 @@ class RecipeDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initializeUI(view)
-        // call the api via repository
-        viewModel.getMealById(args.selectedMealId)
-        // observe the results
-        viewModel.selectedRecipe.observe(viewLifecycleOwner) {
-            if(it != null) {
-                updateMealUI(it)
+
+        if(isInternetAvailable(view.context)) {
+            // call the api via repository
+            viewModel.getMealById(args.selectedMealId)
+            // observe the results
+            viewModel.selectedRecipe.observe(viewLifecycleOwner) {
+                if(it != null) {
+                    updateMealUI(it)
+                }
             }
+
+            showMoreButton.setOnClickListener {
+                viewModel.switchShowFullRecipe()
+            }
+
+            viewModel.showFullRecipe.observe(viewLifecycleOwner) {
+                setItemsVisibility(it)
+            }
+        } else {
+            Log.d("boodyNew", "NoInternet")
         }
 
-        showMoreButton.setOnClickListener {
-            viewModel.switchShowFullRecipe()
-        }
 
-        viewModel.showFullRecipe.observe(viewLifecycleOwner) {
-            setItemsVisibility(it)
-        }
     }
 
     private fun initializeUI(view: View) {
