@@ -18,9 +18,9 @@ interface RecipeApi {
     @GET("lookup.php")
     suspend fun getMealById(@Query("i")  mealId: Int): ResponseObject
 
-
     @GET("search.php")
     suspend fun searchMealsByName(@Query("s") mealName: String): ResponseObject
 
-
+    @GET("random.php")
+    suspend fun getRandomMeal():ResponseObject
 }

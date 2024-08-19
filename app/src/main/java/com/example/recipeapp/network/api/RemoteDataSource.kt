@@ -21,4 +21,8 @@ class RemoteDataSource(
     override suspend fun searchMealsByName(mealName: String): List<Meal>? {
         return api.searchMealsByName(mealName).meals
     }
+
+    override suspend fun getRandomMeal(): List<Meal> {
+        return api.getRandomMeal().meals!!
+    }
 }

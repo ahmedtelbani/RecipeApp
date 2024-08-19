@@ -12,4 +12,6 @@ interface IMealsRepository {
     suspend fun getMealById(mealId: Int): Meal?
 
     suspend fun searchMealsByName(mealName: String): List<Meal>?
+
+    suspend fun getRandomMeal():List<Meal>
 }

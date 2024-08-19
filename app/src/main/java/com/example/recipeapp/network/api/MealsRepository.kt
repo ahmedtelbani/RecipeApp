@@ -22,4 +22,8 @@ class MealsRepository(
         return remoteDataSource.searchMealsByName(mealName)
     }
 
+    override suspend fun getRandomMeal(): List<Meal> {
+        return remoteDataSource.getRandomMeal()
+    }
+
 }
