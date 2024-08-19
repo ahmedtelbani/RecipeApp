@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -66,6 +65,16 @@ class MealAdapter (
         notifyDataSetChanged()  // Notify the adapter that the data has changed
     }
 
+    fun filterMeals(query: String,originalMealList: List<Meal>) {
+        val filteredList = if (query=="All Meals") {
+            originalMealList
+        } else {
+            originalMealList.filter { meal ->
+                meal.strCategory.contains(query, ignoreCase = true)
+            }
+        }
+        updateMeals(filteredList)
+    }
 
     class FoodViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val foodImage: ImageView = view.findViewById(R.id.mealImageView)

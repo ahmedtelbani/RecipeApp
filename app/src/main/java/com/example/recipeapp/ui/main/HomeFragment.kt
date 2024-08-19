@@ -5,8 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -21,6 +21,10 @@ class HomeFragment : Fragment(),
     MealAdapter.OnMealItemClickListener,
     CategoryAdapter.OnCategoryItemClickListener{
     private val viewModel: RecipeViewModel by viewModels() // ViewModel initialization
+    private lateinit var mealAdapter: MealAdapter
+    private lateinit var categoryTitleTextView: TextView
+    private var originalMealList: List<Meal> = listOf()
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,23 +38,24 @@ class HomeFragment : Fragment(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Pass the ViewModel to the adapter
+        mealAdapter = MealAdapter(listOf(), this, viewModel)
         val recyclerView: RecyclerView = view.findViewById(R.id.food_recycler_view)
         val categoryRecyclerView : RecyclerView = view.findViewById(R.id.category_recycler_view)
-
-        // Pass the ViewModel to the adapter
-        val mealAdapter = MealAdapter(listOf(), this, viewModel)
+        categoryTitleTextView = view.findViewById(R.id.allMealsTextView)
 
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = mealAdapter
 
         // Observe the meals from ViewModel and update the adapter
         viewModel.allMealList.observe(viewLifecycleOwner) { meals ->
+            originalMealList = meals
             mealAdapter.updateMeals(meals)
         }
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         viewModel.categoryList.observe(viewLifecycleOwner) { categoryList ->
-            categoryRecyclerView.adapter = CategoryAdapter(categoryList, this)
+            val categoryAdapter = CategoryAdapter(categoryList, this)
+            categoryRecyclerView.adapter = categoryAdapter
         }
         categoryRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
@@ -66,6 +71,13 @@ class HomeFragment : Fragment(),
     }
 
     override fun onCategoryItemClicked(category: Categories) {
-
+        mealAdapter.filterMeals(category.strCategory,originalMealList)
+        categoryTitleTextView.text = category.strCategory
     }
+
+//    fun showAllMeals() {
+//        mealAdapter.filterMeals(null)
+//        categoryTitleTextView.text = "All Meals"
+//    }
+
 }

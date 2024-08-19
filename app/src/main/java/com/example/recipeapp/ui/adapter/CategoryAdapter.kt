@@ -1,5 +1,6 @@
 package com.example.recipeapp.ui.adapter
 
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,9 +12,22 @@ import com.example.recipeapp.R
 import com.example.recipeapp.data.model.Categories
 
 class CategoryAdapter(
-    private val categoryList: List<Categories>,
+    private var categoryList: List<Categories>,
     private val listener: OnCategoryItemClickListener
     ) : RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>(){
+
+    companion object {
+        private val allMealsCategory = Categories(
+            idCategory = "all_meals",
+            strCategory = "All Meals",
+            strCategoryThumb  = "https://mymetabolicmeals.com/cdn/shop/files/Home_SupportImages_Meal-Collage_ba7b3fcf-68bb-4952-aea2-9920385ec6fa.png?v=1673542356",
+            strCategoryDescription = "All meals combined"
+        )
+    }
+
+    init {
+        categoryList = listOf(allMealsCategory) + categoryList
+    }
 
     interface OnCategoryItemClickListener {
         fun onCategoryItemClicked(category: Categories)
@@ -31,7 +45,7 @@ class CategoryAdapter(
 
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
         val categoryItem = categoryList[position]
-        holder.foodName.text = categoryItem.strCategory
+        holder.categoryName.text = categoryItem.strCategory
 
         Glide.with(holder.categoryImage.context)
             .load(categoryItem.strCategoryThumb)
@@ -45,6 +59,6 @@ class CategoryAdapter(
 
     class CategoryViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val categoryImage: ImageView = view.findViewById(R.id.categoryImageView)
-        val foodName: TextView = view.findViewById(R.id.categoryNameTextView)
+        val categoryName: TextView = view.findViewById(R.id.categoryNameTextView)
     }
 }
