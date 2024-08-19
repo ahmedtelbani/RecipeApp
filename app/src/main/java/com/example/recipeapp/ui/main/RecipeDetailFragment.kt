@@ -8,11 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebChromeClient
 import android.webkit.WebView
-import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
-import android.widget.ListView
 import android.widget.TextView
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
@@ -40,6 +38,7 @@ class RecipeDetailFragment : Fragment() {
     private lateinit var recipeInstructionsTextView: TextView
     private lateinit var showMoreButton: Button
     private lateinit var recipeVideoWebView: WebView
+    private lateinit var errorMessageTextView: TextView
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -67,8 +66,10 @@ class RecipeDetailFragment : Fragment() {
             viewModel.showFullRecipe.observe(viewLifecycleOwner) {
                 setItemsVisibility(it)
             }
+
+            errorMessageTextView.visibility = View.GONE
         } else {
-            Log.d("boodyNew", "NoInternet")
+            noInternet()
         }
 
 
@@ -85,6 +86,7 @@ class RecipeDetailFragment : Fragment() {
         recipeInstructionsTextView = view.findViewById(R.id.tv_recipe_instructions)
         showMoreButton = view.findViewById(R.id.btn_show_full_recipe)
         recipeVideoWebView = view.findViewById(R.id.wv_recipe_video)
+        errorMessageTextView = view.findViewById(R.id.tv_error_message_recipe_details_fragment)
     }
 
     private fun updateMealUI(meal: Meal) {
@@ -107,8 +109,6 @@ class RecipeDetailFragment : Fragment() {
                 }
             }
         }
-
-
 
         recipeCategoryTextView.text = meal.strCategory
         recipeAreaTextView.text = meal.strArea
@@ -144,13 +144,10 @@ class RecipeDetailFragment : Fragment() {
             recipeMeasuresListView.visibility = View.GONE
             recipeIngredientsListView.visibility = View.GONE
             recipeInstructionsTextView.visibility = View.GONE
-//            recipeVideoWebView.visibility = View.GONE
         } else {
             recipeMeasuresListView.visibility = View.VISIBLE
             recipeIngredientsListView.visibility = View.VISIBLE
             recipeInstructionsTextView.visibility = View.VISIBLE
-//            recipeVideoWebView.visibility = View.GONE
-
         }
 
     }
@@ -163,6 +160,13 @@ class RecipeDetailFragment : Fragment() {
             "https://www.youtube.com/embed/$videoId"
         } else {
             throw IllegalArgumentException("Invalid YouTube URL")
+        }
+    }
+
+    private fun noInternet() {
+        Log.d("boodyNew", "NoInternet")
+        if (errorMessageTextView.visibility == View.GONE) {
+            errorMessageTextView.visibility = View.VISIBLE
         }
     }
 }
