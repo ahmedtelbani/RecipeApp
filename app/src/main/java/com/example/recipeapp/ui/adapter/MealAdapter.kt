@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -67,7 +66,7 @@ class MealAdapter (
     }
 
     fun filterMeals(query: String,originalMealList: List<Meal>) {
-        val filteredList = if (originalMealList.isEmpty()) {
+        val filteredList = if (query=="All Meals") {
             originalMealList
         } else {
             originalMealList.filter { meal ->

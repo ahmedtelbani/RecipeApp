@@ -12,7 +12,7 @@
 
         <ImageView
             android:id="@+id/iv_recipe_image"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:contentDescription="@string/meal_image"
             app:layout_constraintEnd_toEndOf="@+id/btn_show_full_recipe"
