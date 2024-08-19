@@ -1,5 +1,6 @@
 package com.example.recipeapp.network.api
 
+import com.example.recipeapp.data.model.Categories
 import com.example.recipeapp.data.model.Meal
 
 class RemoteDataSource(
@@ -7,6 +8,10 @@ class RemoteDataSource(
 ): IRemoteDataSource {
     override suspend fun getAllMeals(): List<Meal> {
         return api.getAllMeals().meals ?: emptyList()
+    }
+
+    override suspend fun getCategories(): List<Categories> {
+        return api.getCategories().categories
     }
 
     override suspend fun getMealById(mealId: Int): Meal? {

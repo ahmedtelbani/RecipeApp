@@ -1,14 +1,12 @@
 package com.example.recipeapp.ui.auth
 
-import android.os.Build
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.FragmentManager
+import androidx.core.content.ContextCompat.getColor
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navOptions
@@ -16,25 +14,16 @@ import com.example.recipeapp.R
 import com.example.recipeapp.data.model.User
 import com.example.recipeapp.databinding.FragmentRegisterBinding
 import com.example.recipeapp.ui.viewmodel.AuthViewModel
+import com.example.recipeapp.util.AuthHelper
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.format.TextStyle
-import java.util.Locale
 
 class RegisterFragment : Fragment() {
-    lateinit var binding: FragmentRegisterBinding
-    val authViewModel: AuthViewModel by viewModels()
-    lateinit var navController: NavController
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+
+    private lateinit var binding: FragmentRegisterBinding
+    private lateinit var navController: NavController
+    private val authViewModel: AuthViewModel by viewModels()
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentRegisterBinding.inflate(layoutInflater)
         navController = findNavController()
         return binding.root
@@ -42,100 +31,7 @@ class RegisterFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.loginTV.setOnClickListener {
-            findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
-        }
-        binding.signUpButton.setOnClickListener {
-            var username = binding.usernameEditText.text.toString()
-            var email = binding.emailEditText.text.toString()
-            var password = binding.passwordEditText.text.toString()
-            var confirmedPassword = binding.confirmPasswordEditText.text.toString()
-            if (username.isBlank() || password.isBlank() || email.isBlank() || confirmedPassword.isBlank()) {
-                Snackbar.make(binding.root, "Please fill all the Inputs", Snackbar.LENGTH_LONG)
-                    .setBackgroundTint(resources.getColor(R.color.primaryColor)).show()
-            } else {
-                if (!email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$".toRegex()) && !password.matches(
-                        "^(?=.*[A-Z])(?=(.*\\d){3,})(?=.{8,15}$).*$".toRegex()
-                    )
-                ) {
-                    Snackbar.make(
-                        binding.root,
-                        "wrong email and password format",
-                        Snackbar.LENGTH_LONG
-                    )
-                        .setBackgroundTint(resources.getColor(R.color.primaryColor)).show()
-                } else if (!email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$".toRegex())) {
-                    Snackbar.make(binding.root, "Invalid Email", Snackbar.LENGTH_LONG)
-                        .setBackgroundTint(resources.getColor(R.color.primaryColor)).show()
-                } else if (!password.matches(
-                        "^(?=.*[A-Z])(?=(.*\\d){3,})(?=.{8,15}$).*$".toRegex()
-                    )
-                ) {
-                    Snackbar.make(
-                        binding.root,
-                        "The password must contain one capital letter, 3 numbers and be between 8-15 characters",
-                        Snackbar.LENGTH_LONG
-                    ).setBackgroundTint(resources.getColor(R.color.primaryColor))
-                        .show()
-                } else {
-                    if (password != confirmedPassword) {
-                        Snackbar.make(
-                            binding.root,
-                            "The passwords doesn't match!",
-                            Snackbar.LENGTH_LONG
-                        ).setBackgroundTint(resources.getColor(R.color.primaryColor))
-                            .show()
-                    } else {
-                        authViewModel.isUserExistByEmail(email)
-                        authViewModel.isUserExist.observe(viewLifecycleOwner, Observer {
-                            if (it) {
-                                Snackbar.make(
-                                    binding.root,
-                                    "A user with this Email already exists",
-                                    Snackbar.LENGTH_LONG
-                                ).setBackgroundTint(resources.getColor(R.color.primaryColor))
-                                    .setAction("Login")
-                                    {
-                                        navController.navigate(R.id.action_registerFragment_to_loginFragment,
-                                            null,
-                                            navOptions {
-                                                popUpTo(R.id.registerFragment)
-                                                {
-                                                    inclusive = true
-                                                }
-                                            })
-                                    }
-                                    .show()
-                            } else {
-                                authViewModel.addUser(
-                                    User(
-                                        0,
-                                        name = username,
-                                        email = email,
-                                        hashedPassword = password,
-                                        "Sunday"
-                                    )
-                                )
-                                Snackbar.make(
-                                    binding.root,
-                                    "Login successful",
-                                    Snackbar.LENGTH_LONG
-                                ).setBackgroundTint(resources.getColor(R.color.primaryColor))
-                                    .show()
-                                navController.navigate(R.id.action_registerFragment_to_loginFragment,
-                                    null,
-                                    navOptions {
-                                        popUpTo(R.id.registerFragment) {
-                                            inclusive = true
-                                        }
-                                    })
-                            }
-                        })
-                    }
-                }
-            }
 
-        }
         binding.loginTV.setOnClickListener {
             navController.navigate(R.id.action_registerFragment_to_loginFragment,
                 null,
@@ -145,6 +41,75 @@ class RegisterFragment : Fragment() {
                     }
                 })
         }
+
+        binding.signUpButton.setOnClickListener {
+            val username = binding.usernameEditText.text.toString()
+            val email = binding.emailEditText.text.toString()
+            val password = binding.passwordEditText.text.toString()
+            val confirmedPassword = binding.confirmPasswordEditText.text.toString()
+            val authHelper = AuthHelper(email, password, confirmedPassword)
+
+            if (username.isBlank() || password.isBlank() || email.isBlank() || confirmedPassword.isBlank()) {
+                showSnackBar(getString(R.string.please_fill_all_the_input_fields))
+            } else if (!authHelper.isEmailValid()) {
+                showSnackBar(getString(R.string.the_email_is_not_in_valid_form))
+            } else if (!authHelper.isPasswordValid()) {
+                showSnackBar(getString(R.string.password_validation_message))
+            } else if (!authHelper.arePasswordsMatching()) {
+                showSnackBar(getString(R.string.the_passwords_don_t_match))
+            } else {
+                    authViewModel.isUserExistByEmail(email)
+                    authViewModel.isUserExist.observe(viewLifecycleOwner) { user ->
+                        if (user) {  // User already exists
+                            showSnackBarWithLoginButton(getString(R.string.this_email_is_already_exists))
+                        } else {  // everything perfect (Create new User)
+                            authViewModel.addUser(
+                                User(
+                                    id = 0,
+                                    name = username,
+                                    email = email,
+                                    hashedPassword = password,
+                                    lastLoginTimestamp = authHelper.getCurrentTimestamp().toString()
+                                )
+                            )
+                            showSnackBar(getString(R.string.account_created_successfully))
+                            navController.navigate(R.id.action_registerFragment_to_loginFragment,
+                                null,
+                                navOptions {
+                                    popUpTo(R.id.registerFragment) {
+                                        inclusive = true
+                                    }
+                                })
+                        }
+                    }
+            }
+
+        }
+
+    }
+
+    private fun showSnackBar(mess: String) {
+        val bgColor = getColor(requireContext(), R.color.primaryColor)
+        Snackbar.make(binding.root, mess, Snackbar.LENGTH_LONG)
+            .setBackgroundTint(bgColor)
+            .show()
+    }
+
+    private fun showSnackBarWithLoginButton(mess: String) {
+        val bgColor = getColor(requireContext(), R.color.primaryColor)
+        Snackbar.make(binding.root, mess, Snackbar.LENGTH_LONG)
+            .setBackgroundTint(bgColor)
+            .setAction(getString(R.string.login)) {
+                navController.navigate(R.id.action_registerFragment_to_loginFragment,
+                    null,
+                    navOptions {
+                        popUpTo(R.id.registerFragment)
+                        {
+                            inclusive = true
+                        }
+                    })
+            }
+            .show()
     }
 
 }

@@ -7,7 +7,7 @@
     <string name="don_t_have_an_account_sign_up">Don\'t have an account?</string>
     <string name="sign_up"><u>Sign up</u></string>
     <string name="login"><u>Login</u></string>
-    <string name="catigory">Category</string>
+    <string name="category">Category</string>
     <string name="area">Area</string>
     <string name="show_more">Show More</string>
     <string name="instructions">Instructions</string>
@@ -15,4 +15,20 @@
     <string name="search_for_a_meal">Search for a meal</string>
     <string name="about">About</string>
     <string name="sign_out">Sign out</string>
+    <string name="category_meals">Category Meals</string>
+    <string name="all_meals">All Meals</string>
+    <string name="you_don_t_have_an_account">You don\'t have an account!</string>
+    <string name="the_email_is_not_in_valid_form">The email is not in valid form!</string>
+    <string name="password_validation_message">The password must contain at least one capital letter, one number, and 8 characters total.</string>
+    <string name="the_email_field_is_empty">The email field is Empty!</string>
+    <string name="the_password_field_is_empty">The password field is Empty!</string>
+    <string name="account_created_successfully">Account Created successfully</string>
+    <string name="this_email_is_already_exists">This Email is already exists!</string>
+    <string name="please_fill_all_the_input_fields">Please fill all the Input fields.</string>
+    <string name="the_passwords_don_t_match">The passwords don\'t match!</string>
+    <string name="username">Username</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="log_in">Log in</string>
 </resources>

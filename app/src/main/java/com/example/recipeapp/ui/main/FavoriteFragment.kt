@@ -17,7 +17,7 @@ import com.example.recipeapp.ui.adapter.MealAdapter
 import com.example.recipeapp.ui.viewmodel.RecipeViewModel
 
 class FavoriteFragment : Fragment(), MealAdapter.OnMealItemClickListener {
-    private val viewModel: RecipeViewModel by viewModels()
+    private val viewModel: RecipeViewModel by viewModels() // Initialize ViewModel with delegate
     private lateinit var favoriteAdapter: MealAdapter
     private lateinit var recyclerView: RecyclerView
     private lateinit var emptyTextView: TextView
@@ -40,7 +40,7 @@ class FavoriteFragment : Fragment(), MealAdapter.OnMealItemClickListener {
         //viewModel.addTestMeal()
 
         toolbar.title = "Favorite"
-        favoriteAdapter = MealAdapter(mutableListOf(), this)
+        favoriteAdapter = MealAdapter(mutableListOf(), this, viewModel) // Pass the ViewModel to the adapter
 
         // Set up the RecyclerView with the adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -53,7 +53,7 @@ class FavoriteFragment : Fragment(), MealAdapter.OnMealItemClickListener {
             } else {
                 emptyTextView.visibility = View.GONE
                 recyclerView.visibility = View.VISIBLE
-                // favoriteAdapter.updateMeals(meals)
+                 favoriteAdapter.updateMeals(meals)
             }
         }
 
