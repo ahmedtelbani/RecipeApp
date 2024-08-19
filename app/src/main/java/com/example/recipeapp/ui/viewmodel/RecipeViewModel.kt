@@ -18,6 +18,7 @@ import com.example.recipeapp.network.api.MealsRepository
 import com.example.recipeapp.network.api.RemoteDataSource
 import com.example.recipeapp.network.api.RetrofitInstance
 import com.example.recipeapp.network.response.ApiResponse
+import com.example.recipeapp.util.handleApiResponseUiLogic
 import com.example.recipeapp.util.isInternetAvailable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -237,18 +238,5 @@ class RecipeViewModel(application: Application): AndroidViewModel(application) {
 
 }
 
-fun handleApiResponseUiLogic(
-    apiResponse: ApiResponse,
-    onSuccess: (data: ResponseObject) -> Unit = {},
-    onHttpError: (code: Int, message: String) -> Unit = {code, message -> },
-    onUnknownError: (exception: Exception) -> Unit = {},
-    onSomethingElseHappen: () -> Unit = {}
-) {
-    when(apiResponse) {
-        is ApiResponse.Success -> onSuccess(apiResponse.data)
-        is ApiResponse.Error.HttpError -> onHttpError(apiResponse.code, apiResponse.message)
-        is ApiResponse.Error.UnknownError -> onUnknownError(apiResponse.exception)
-        else -> onSomethingElseHappen()
-    }
-}
+
 
