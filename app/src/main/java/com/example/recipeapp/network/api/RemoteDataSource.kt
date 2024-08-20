@@ -30,8 +30,8 @@ class RemoteDataSource(
 //        return api.searchMealsByName(mealName).meals
     }
     
-    override suspend fun getRandomMeal(): List<Meal> {
-        return api.getRandomMeal().meals!!
+    override suspend fun getRandomMeal(): ApiResponse {
+        return safeApiCall { api.getRandomMeal() }
     }
 
 }

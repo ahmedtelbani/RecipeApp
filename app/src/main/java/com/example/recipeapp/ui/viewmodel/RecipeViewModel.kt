@@ -85,9 +85,15 @@ class RecipeViewModel(application: Application): AndroidViewModel(application) {
     {
         viewModelScope.launch {
             try{
-                val result = repository.getRandomMeal()
-                _randomMealList.postValue(result)
-                Log.i("getRandomMeal",result.toString())
+                handleApiResponseUiLogic(
+                    repository.getRandomMeal(),
+                    onSuccess = { response ->
+                        _randomMealList.postValue(response.meals!!)
+                    },
+                    onHttpError = { code, message -> Log.d("boodyNew", "$code, $message")},
+                    onUnknownError = {e -> Log.d("boodyNew", "${e.message}")},
+                    onSomethingElseHappen = {Log.d("boodyNew", "Something Wrong Happened")}
+                )
             }catch(e:Exception)
             {
                 Log.e("getRandomMeal", e.toString())

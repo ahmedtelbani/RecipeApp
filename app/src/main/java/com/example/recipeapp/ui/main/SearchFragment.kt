@@ -16,6 +16,7 @@ import com.example.recipeapp.data.model.Meal
 import com.example.recipeapp.ui.extensions.textChanges
 import com.example.recipeapp.ui.adapter.MealAdapter
 import com.example.recipeapp.ui.viewmodel.RecipeViewModel
+import com.example.recipeapp.util.isInternetAvailable
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -42,10 +43,16 @@ class SearchFragment : Fragment(), MealAdapter.OnMealItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        searchEditText.textChanges().onEach { query ->
-            performSearch(query)
+        if(isInternetAvailable(view.context)) {
+            searchEditText.textChanges().onEach { query ->
+                performSearch(query)
+            }
+                .launchIn(lifecycleScope)
+        } else {
+            // handle No internet
         }
-            .launchIn(lifecycleScope)
+
+
     }
 
     private fun performSearch(query: String) {
