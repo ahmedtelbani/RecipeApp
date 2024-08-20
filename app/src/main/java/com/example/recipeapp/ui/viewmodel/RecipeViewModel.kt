@@ -16,6 +16,7 @@ import com.example.recipeapp.data.network.api.IRemoteDataSource
 import com.example.recipeapp.data.network.api.MealsRepository
 import com.example.recipeapp.data.network.api.RemoteDataSource
 import com.example.recipeapp.data.network.api.RetrofitInstance
+import com.example.recipeapp.util.PreferencesHelper
 import com.example.recipeapp.util.handleApiResponseUiLogic
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -44,6 +45,7 @@ class RecipeViewModel(application: Application): AndroidViewModel(application) {
 
     val randomMealList: LiveData<List<Meal>> get() = _randomMealList
     private val _randomMealList:MutableLiveData<List<Meal>> = MutableLiveData()
+    private val sharedPreferences: PreferencesHelper = PreferencesHelper(application)
 
 
     init {
@@ -134,29 +136,31 @@ class RecipeViewModel(application: Application): AndroidViewModel(application) {
         }
     }
 
-    fun addFavoriteMeal(meal: Meal): String {
+    fun addFavoriteMeal(meal: Meal) {
+        val userId = sharedPreferences.getValue().toString()
         viewModelScope.launch(Dispatchers.IO) {
-            recipeRepository.addFavoriteMeal(meal)
+            recipeRepository.addFavoriteMeal(meal, userId)
         }
-        return meal.idMeal
     }
 
     fun getAllFavoriteMeals() {
+        val userId = sharedPreferences.getValue().toString()
         viewModelScope.launch {
-            _favoriteMealList.postValue(recipeRepository.getAllFavoriteMeals())
+            _favoriteMealList.postValue(recipeRepository.getAllFavoriteMeals(userId))
         }
     }
 
-
-    fun deleteFavoriteMeal(meal: Meal): String {
+    fun deleteFavoriteMeal(meal: Meal) {
+        val userId = sharedPreferences.getValue().toString()
         viewModelScope.launch(Dispatchers.IO) {
-            recipeRepository.deleteFavoriteMeal(meal)
+            recipeRepository.deleteFavoriteMeal(meal, userId)
             getAllFavoriteMeals()
         }
-        return meal.idMeal
     }
+
     fun isMealFavorite(mealId: String): LiveData<Boolean> {
-        return recipeRepository.isMealFavorite(mealId)
+        val userId = sharedPreferences.getValue().toString()
+        return recipeRepository.isMealFavorite(mealId, userId)
     }
 
 

@@ -4,9 +4,9 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.io.Serializable
 
-@Entity(tableName = "FavoriteMeals")
+@Entity(tableName = "FavoriteMeals", primaryKeys = ["idMeal", "userId"])
 data class Meal(
-    @PrimaryKey(autoGenerate = false)
+    val userId: String,
     val idMeal: String = "",
     val strMeal: String,
     val strCategory: String,
