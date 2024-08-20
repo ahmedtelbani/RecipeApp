@@ -11,11 +11,12 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recipeapp.R
-import com.example.recipeapp.data.model.Categories
+import com.example.recipeapp.data.model.Category
 import com.example.recipeapp.data.model.Meal
 import com.example.recipeapp.ui.adapter.CategoryAdapter
 import com.example.recipeapp.ui.adapter.MealAdapter
 import com.example.recipeapp.ui.viewmodel.RecipeViewModel
+import com.example.recipeapp.util.isInternetAvailable
 
 class HomeFragment : Fragment(),
     MealAdapter.OnMealItemClickListener,
@@ -23,9 +24,11 @@ class HomeFragment : Fragment(),
 
     private val viewModel: RecipeViewModel by viewModels()
     private lateinit var mealAdapter: MealAdapter
+      
     private lateinit var categoryTitleTextView: TextView
     private lateinit var emptyListMessageTextView: TextView
     private lateinit var recyclerView: RecyclerView
+      
     private var originalMealList: List<Meal> = listOf()
 
     override fun onCreateView(
@@ -37,7 +40,6 @@ class HomeFragment : Fragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
 
         mealAdapter = MealAdapter(listOf(), this, viewModel)
         recyclerView = view.findViewById(R.id.food_recycler_view)
@@ -63,10 +65,9 @@ class HomeFragment : Fragment(),
             val categoryAdapter = CategoryAdapter(categoryList, this)
             categoryRecyclerView.adapter = categoryAdapter
         }
+        
         categoryRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-
         viewModel.getCategories()
-
         viewModel.getAllMeals()
     }
 
@@ -75,7 +76,7 @@ class HomeFragment : Fragment(),
         findNavController().navigate(action)
     }
 
-    override fun onCategoryItemClicked(category: Categories) {
+    override fun onCategoryItemClicked(category: Category) {
         if (category.strCategory == "Random Meal") {
             viewModel.getRandomMeal()
             viewModel.randomMealList.observe(viewLifecycleOwner) { randomMeals ->

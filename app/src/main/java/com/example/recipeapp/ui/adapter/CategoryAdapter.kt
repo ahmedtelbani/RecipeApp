@@ -9,21 +9,21 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.recipeapp.R
-import com.example.recipeapp.data.model.Categories
+import com.example.recipeapp.data.model.Category
 
 class CategoryAdapter(
-    private var categoryList: List<Categories>,
+    private var categoryList: List<Category>,
     private val listener: OnCategoryItemClickListener
     ) : RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>(){
 
     companion object {
-        private val allMealsCategory = Categories(
+        private val allMealsCategory = Category(
             idCategory = "all_meals",
             strCategory = "All Meals",
             strCategoryThumb  = "https://mymetabolicmeals.com/cdn/shop/files/Home_SupportImages_Meal-Collage_ba7b3fcf-68bb-4952-aea2-9920385ec6fa.png?v=1673542356",
             strCategoryDescription = "All meals combined"
         )
-        private val randomMealCategory = Categories(
+        private val randomMealCategory = Category(
             idCategory = "random_meal",
             strCategory = "Random Meal",
             strCategoryThumb = "https://www.listchallenges.com/f/lists/ae0b84a5-e7d2-41e8-8d4a-ad5fa0d60ae2.jpg",
@@ -36,7 +36,7 @@ class CategoryAdapter(
     }
 
     interface OnCategoryItemClickListener {
-        fun onCategoryItemClicked(category: Categories)
+        fun onCategoryItemClicked(category: Category)
     }
 
     override fun onCreateViewHolder(

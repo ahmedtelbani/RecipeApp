@@ -15,6 +15,7 @@ import com.example.recipeapp.data.model.User
 import com.example.recipeapp.databinding.FragmentRegisterBinding
 import com.example.recipeapp.ui.viewmodel.AuthViewModel
 import com.example.recipeapp.util.AuthHelper
+import com.example.recipeapp.util.Security
 import com.google.android.material.snackbar.Snackbar
 
 class RegisterFragment : Fragment() {
@@ -63,12 +64,13 @@ class RegisterFragment : Fragment() {
                         if (user) {  // User already exists
                             showSnackBarWithLoginButton(getString(R.string.this_email_is_already_exists))
                         } else {  // everything perfect (Create new User)
+                            val hashedPassword = Security().hashPassword(password)
                             authViewModel.addUser(
                                 User(
                                     id = 0,
                                     name = username,
                                     email = email,
-                                    hashedPassword = password,
+                                    hashedPassword = hashedPassword,
                                     lastLoginTimestamp = authHelper.getCurrentTimestamp().toString()
                                 )
                             )

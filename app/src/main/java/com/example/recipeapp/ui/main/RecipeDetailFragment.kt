@@ -17,8 +17,8 @@ import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.example.recipeapp.R
 import com.example.recipeapp.data.model.Meal
-import com.example.recipeapp.data.model.getIngredients
-import com.example.recipeapp.data.model.getMeasures
+import com.example.recipeapp.ui.extensions.getIngredients
+import com.example.recipeapp.ui.extensions.getMeasures
 import com.example.recipeapp.ui.viewmodel.RecipeViewModel
 import com.example.recipeapp.util.isInternetAvailable
 
@@ -76,7 +76,6 @@ class RecipeDetailFragment : Fragment() {
         } else {
             noInternet()
         }
-
 
     }
 
@@ -153,10 +152,12 @@ class RecipeDetailFragment : Fragment() {
             recipeMeasuresListView.visibility = View.GONE
             recipeIngredientsListView.visibility = View.GONE
             recipeInstructionsTextView.visibility = View.GONE
+            showMoreButton.text = getString(R.string.show_more)
         } else {
             recipeMeasuresListView.visibility = View.VISIBLE
             recipeIngredientsListView.visibility = View.VISIBLE
             recipeInstructionsTextView.visibility = View.VISIBLE
+            showMoreButton.text = getString(R.string.show_less)
         }
 
     }

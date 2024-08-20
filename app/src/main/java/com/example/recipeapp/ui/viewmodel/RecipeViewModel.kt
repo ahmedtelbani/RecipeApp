@@ -4,11 +4,10 @@ import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.recipeapp.data.database.RecipeDatabase
-import com.example.recipeapp.data.model.Categories
+import com.example.recipeapp.data.model.Category
 import com.example.recipeapp.data.model.Meal
 import com.example.recipeapp.data.model.ResponseObject
 import com.example.recipeapp.data.repository.RecipeRepository
@@ -17,12 +16,9 @@ import com.example.recipeapp.network.api.IRemoteDataSource
 import com.example.recipeapp.network.api.MealsRepository
 import com.example.recipeapp.network.api.RemoteDataSource
 import com.example.recipeapp.network.api.RetrofitInstance
-import com.example.recipeapp.network.response.ApiResponse
 import com.example.recipeapp.util.handleApiResponseUiLogic
-import com.example.recipeapp.util.isInternetAvailable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class RecipeViewModel(application: Application): AndroidViewModel(application) {
     /**
@@ -37,17 +33,14 @@ class RecipeViewModel(application: Application): AndroidViewModel(application) {
     private val _allMealList: MutableLiveData<List<Meal>> = MutableLiveData()
     val allMealList: LiveData<List<Meal>> get() = _allMealList
 
-    private val _categoryList: MutableLiveData<List<Categories>> = MutableLiveData()
-    val categoryList: LiveData<List<Categories>> get() = _categoryList
+    private val _categoryList: MutableLiveData<List<Category>> = MutableLiveData()
+    val categoryList: LiveData<List<Category>> get() = _categoryList
 
     private val _searchMealList: MutableLiveData<List<Meal>?> = MutableLiveData()
     val searchMealList: MutableLiveData<List<Meal>?> get() = _searchMealList
 
     private val _favoriteMealList: MutableLiveData<List<Meal>> = MutableLiveData()
     val favoriteMealList: LiveData<List<Meal>> get() = _favoriteMealList
-
-    private val _favoriteMealListIds: MutableLiveData<List<String>> = MutableLiveData()
-    val favoriteMealListIds: LiveData<List<String>> get() = _favoriteMealListIds
 
     val randomMealList: LiveData<List<Meal>> get() = _randomMealList
     private val _randomMealList:MutableLiveData<List<Meal>> = MutableLiveData()
@@ -85,9 +78,15 @@ class RecipeViewModel(application: Application): AndroidViewModel(application) {
     {
         viewModelScope.launch {
             try{
-                val result = repository.getRandomMeal()
-                _randomMealList.postValue(result)
-                Log.i("getRandomMeal",result.toString())
+                handleApiResponseUiLogic(
+                    repository.getRandomMeal(),
+                    onSuccess = { response ->
+                        _randomMealList.postValue(response.meals!!)
+                    },
+                    onHttpError = { code, message -> Log.d("boodyNew", "$code, $message")},
+                    onUnknownError = {e -> Log.d("boodyNew", "${e.message}")},
+                    onSomethingElseHappen = {Log.d("boodyNew", "Something Wrong Happened")}
+                )
             }catch(e:Exception)
             {
                 Log.e("getRandomMeal", e.toString())
@@ -148,11 +147,6 @@ class RecipeViewModel(application: Application): AndroidViewModel(application) {
         }
     }
 
-    fun getAllFavoriteMealsId() {
-        viewModelScope.launch {
-            _favoriteMealListIds.postValue(recipeRepository.getAllFavoriteMealsId())
-        }
-    }
 
     fun deleteFavoriteMeal(meal: Meal): String {
         viewModelScope.launch(Dispatchers.IO) {

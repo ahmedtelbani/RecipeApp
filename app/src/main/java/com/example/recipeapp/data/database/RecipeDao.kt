@@ -17,9 +17,6 @@ interface RecipeDao {
     @Query("SELECT * FROM FavoriteMeals")
     suspend fun getAllFavoriteMeals(): List<Meal>
 
-    @Query("SELECT idMeal FROM FavoriteMeals")
-    suspend fun getAllFavoriteMealsId(): List<String>
-
     @Delete
     suspend fun deleteFavoriteMeal(meal: Meal)
 
