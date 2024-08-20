@@ -1,4 +1,4 @@
-package com.example.recipeapp
+package com.example.recipeapp.ui.main
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -10,6 +10,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.recipeapp.R
 import com.example.recipeapp.data.model.Developer
 import com.example.recipeapp.ui.adapter.DeveloperAdapter
 

@@ -8,7 +8,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.recipeapp.data.database.RecipeDatabase
 import com.example.recipeapp.data.model.User
 import com.example.recipeapp.data.repository.UserRepository
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class AuthViewModel(application: Application): AndroidViewModel(application) {
@@ -20,9 +19,6 @@ class AuthViewModel(application: Application): AndroidViewModel(application) {
 
     private val _isUserExist: MutableLiveData<Boolean> = MutableLiveData()
     val isUserExist: LiveData<Boolean> get() = _isUserExist
-
-    private val _addedUserId: MutableLiveData<Long> = MutableLiveData()
-    val addedUserId: LiveData<Long> get() = _addedUserId
 
     private val _loginUser: MutableLiveData<User> = MutableLiveData()
     val loginUser: LiveData<User> get() = _loginUser
@@ -36,19 +32,7 @@ class AuthViewModel(application: Application): AndroidViewModel(application) {
 
     fun addUser(user: User) {
         viewModelScope.launch {
-            _addedUserId.postValue(userRepository.addUser(user))
-        }
-    }
-
-    fun getUserById(id: Long) {
-        viewModelScope.launch {
-            _loginUser.postValue(userRepository.getUserById(id))
-        }
-    }
-
-    fun deleteUser(user: User) {
-        viewModelScope.launch {
-            userRepository.deleteUser(user)
+            userRepository.addUser(user)
         }
     }
 
