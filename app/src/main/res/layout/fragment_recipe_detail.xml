@@ -141,10 +141,12 @@
 
         <ImageButton
             android:id="@+id/imageButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_marginStart="8dp"
+            android:contentDescription="@string/favorite_button"
             android:src="@drawable/favorite_toggle_icon"
+            android:background="@android:color/transparent"
             app:layout_constraintStart_toEndOf="@+id/tv_recipe_title"
             app:layout_constraintTop_toTopOf="@+id/tv_recipe_title" />
 

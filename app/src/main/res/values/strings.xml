@@ -32,4 +32,6 @@
     <string name="confirm_password">Confirm password</string>
     <string name="log_in">Log in</string>
     <string name="no_network_connection">NO Network Connection</string>
+    <string name="favorite_button">Favorite Button</string>
+    <string name="show_less">Show less</string>
 </resources>

@@ -77,7 +77,6 @@ class RecipeDetailFragment : Fragment() {
             noInternet()
         }
 
-
     }
 
     private fun initializeUI(view: View) {
@@ -153,10 +152,12 @@ class RecipeDetailFragment : Fragment() {
             recipeMeasuresListView.visibility = View.GONE
             recipeIngredientsListView.visibility = View.GONE
             recipeInstructionsTextView.visibility = View.GONE
+            showMoreButton.text = getString(R.string.show_more)
         } else {
             recipeMeasuresListView.visibility = View.VISIBLE
             recipeIngredientsListView.visibility = View.VISIBLE
             recipeInstructionsTextView.visibility = View.VISIBLE
+            showMoreButton.text = getString(R.string.show_less)
         }
 
     }
