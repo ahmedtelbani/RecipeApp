@@ -148,6 +148,20 @@
             app:layout_constraintStart_toEndOf="@+id/tv_recipe_title"
             app:layout_constraintTop_toTopOf="@+id/tv_recipe_title" />
 
+        <TextView
+            android:id="@+id/tv_error_message_recipe_details_fragment"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/no_network_connection"
+            android:textAlignment="center"
+            android:textColor="#FF0000"
+            android:textSize="34sp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>

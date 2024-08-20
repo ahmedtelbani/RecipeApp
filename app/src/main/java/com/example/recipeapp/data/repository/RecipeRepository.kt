@@ -5,6 +5,7 @@ import androidx.lifecycle.MediatorLiveData
 import com.example.recipeapp.data.database.RecipeDao
 import com.example.recipeapp.data.model.Meal
 import com.example.recipeapp.network.api.RemoteDataSource
+import com.example.recipeapp.network.response.ApiResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -33,7 +34,7 @@ class RecipeRepository(
     }
 
     // online related
-    suspend fun getMealById(id: Int): Meal? {
+    suspend fun getMealById(id: Int): ApiResponse {
         return remoteDataSource.getMealById(id)
     }
     fun isMealFavorite(mealId: String): LiveData<Boolean> {
