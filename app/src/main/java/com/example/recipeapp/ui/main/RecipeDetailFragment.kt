@@ -40,6 +40,10 @@ class RecipeDetailFragment : Fragment() {
     private lateinit var recipeVideoWebView: WebView
     private lateinit var errorMessageTextView: TextView
 
+    private lateinit var categoryTextView: TextView
+    private lateinit var areaTextView: TextView
+    private lateinit var instructionsTextView: TextView
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_recipe_detail, container, false)
@@ -68,6 +72,7 @@ class RecipeDetailFragment : Fragment() {
             }
 
             errorMessageTextView.visibility = View.GONE
+            showAnotherElements()
         } else {
             noInternet()
         }
@@ -87,6 +92,10 @@ class RecipeDetailFragment : Fragment() {
         showMoreButton = view.findViewById(R.id.btn_show_full_recipe)
         recipeVideoWebView = view.findViewById(R.id.wv_recipe_video)
         errorMessageTextView = view.findViewById(R.id.tv_error_message_recipe_details_fragment)
+
+        categoryTextView = view.findViewById(R.id.textView4_category)
+        areaTextView = view.findViewById(R.id.textView5_area)
+        instructionsTextView = view.findViewById(R.id.textView7_instructions)
     }
 
     private fun updateMealUI(meal: Meal) {
@@ -168,5 +177,20 @@ class RecipeDetailFragment : Fragment() {
         if (errorMessageTextView.visibility == View.GONE) {
             errorMessageTextView.visibility = View.VISIBLE
         }
+        hideAnotherElements()
+    }
+    private fun hideAnotherElements() {
+        categoryTextView.visibility = View.GONE
+        areaTextView.visibility = View.GONE
+        instructionsTextView.visibility = View.GONE
+        showMoreButton.visibility = View.GONE
+        recipeIconIsFavorateImageButton.visibility = View.GONE
+    }
+    private fun showAnotherElements() {
+        categoryTextView.visibility = View.VISIBLE
+        areaTextView.visibility = View.VISIBLE
+        instructionsTextView.visibility = View.VISIBLE
+        showMoreButton.visibility = View.VISIBLE
+        recipeIconIsFavorateImageButton.visibility = View.VISIBLE
     }
 }
