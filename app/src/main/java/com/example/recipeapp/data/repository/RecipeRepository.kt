@@ -25,9 +25,6 @@ class RecipeRepository(
         recipeDao.getAllFavoriteMeals()
     }
 
-    suspend fun getAllFavoriteMealsId(): List<String> = withContext(Dispatchers.IO) {
-        recipeDao.getAllFavoriteMealsId()
-    }
 
     suspend fun deleteFavoriteMeal(meal: Meal) {
         recipeDao.deleteFavoriteMeal(meal)
