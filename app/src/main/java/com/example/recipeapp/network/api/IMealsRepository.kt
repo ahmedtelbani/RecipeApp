@@ -13,4 +13,6 @@ interface IMealsRepository {
     suspend fun getMealById(mealId: Int): ApiResponse
 
     suspend fun searchMealsByName(mealName: String): ApiResponse
+  
+    suspend fun getRandomMeal():List<Meal>
 }

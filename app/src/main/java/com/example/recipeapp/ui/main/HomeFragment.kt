@@ -63,6 +63,7 @@ class HomeFragment : Fragment(),
         viewModel.getCategories()
         // Fetch all meals
         viewModel.getAllMeals()
+
     }
 
     override fun onMealItemClicked(meal: Meal) {
@@ -71,10 +72,16 @@ class HomeFragment : Fragment(),
     }
 
     override fun onCategoryItemClicked(category: Categories) {
-        mealAdapter.filterMeals(category.strCategory,originalMealList)
+        if (category.strCategory == "Random Meal") {
+            viewModel.getRandomMeal()
+            viewModel.randomMealList.observe(viewLifecycleOwner) { randomMeals ->
+                mealAdapter.updateMeals(randomMeals)
+            }
+        }
+        else
+            mealAdapter.filterMeals(category.strCategory,originalMealList)
         categoryTitleTextView.text = category.strCategory
     }
-
 //    fun showAllMeals() {
 //        mealAdapter.filterMeals(null)
 //        categoryTitleTextView.text = "All Meals"
