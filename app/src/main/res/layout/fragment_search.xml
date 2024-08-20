@@ -14,7 +14,7 @@
         android:id="@+id/textInputLayout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:paddingVertical="12dp"
         app:boxCornerRadiusBottomEnd="12dp"
         app:boxCornerRadiusBottomStart="12dp"
@@ -26,13 +26,12 @@
         app:startIconDrawable="@drawable/ic_search"
         app:startIconTint="@color/primaryColor"
         app:hintTextColor="@color/primaryColor"
-        app:boxStrokeColor="@color/search_edit_text_border_color"
-        >
+        app:boxStrokeColor="@color/search_edit_text_border_color">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/search_et_mealSearch"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:autofillHints="name"
             android:padding="8dp"
             android:hint="@string/search_for_a_meal"
@@ -42,6 +41,19 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
+    <TextView
+        android:id="@+id/empty_search_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No results found"
+        android:textSize="18sp"
+        android:textColor="@color/black_white"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.5" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/search_rv_mealList"

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.TextView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -28,6 +29,7 @@ class SearchFragment : Fragment(), MealAdapter.OnMealItemClickListener {
 
     private lateinit var searchEditText: EditText
     private lateinit var searchRecyclerView: RecyclerView
+    private lateinit var emptySearchMessageTextView: TextView
     private lateinit var foodAdapter: MealAdapter
 
     private var searchJob: Job? = null
@@ -36,6 +38,7 @@ class SearchFragment : Fragment(), MealAdapter.OnMealItemClickListener {
         val view = inflater.inflate(R.layout.fragment_search, container, false)
         searchEditText = view.findViewById(R.id.search_et_mealSearch)
         searchRecyclerView = view.findViewById(R.id.search_rv_mealList)
+        emptySearchMessageTextView = view.findViewById(R.id.empty_search_message)
         searchRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         return view
     }
@@ -61,7 +64,9 @@ class SearchFragment : Fragment(), MealAdapter.OnMealItemClickListener {
             try {
                 recipeViewModel.searchForMeals(query)  // get data from API
                 recipeViewModel.searchMealList.observe(requireActivity()) { items ->
-                    updateUI(items)
+                    if (items != null) {
+                        updateUI(items)
+                    }
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -70,8 +75,15 @@ class SearchFragment : Fragment(), MealAdapter.OnMealItemClickListener {
     }
 
     private fun updateUI(items: List<Meal>) {
-        foodAdapter = MealAdapter(items, this, recipeViewModel)
-        searchRecyclerView.adapter = foodAdapter
+        if (items.isEmpty()) {
+            emptySearchMessageTextView.visibility = View.VISIBLE
+            searchRecyclerView.visibility = View.GONE
+        } else {
+            emptySearchMessageTextView.visibility = View.GONE
+            searchRecyclerView.visibility = View.VISIBLE
+            foodAdapter = MealAdapter(items, this, recipeViewModel)
+            searchRecyclerView.adapter = foodAdapter
+        }
     }
 
 

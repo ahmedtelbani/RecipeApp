@@ -36,8 +36,8 @@ class RecipeViewModel(application: Application): AndroidViewModel(application) {
     private val _categoryList: MutableLiveData<List<Category>> = MutableLiveData()
     val categoryList: LiveData<List<Category>> get() = _categoryList
 
-    private val _searchMealList: MutableLiveData<List<Meal>> = MutableLiveData()
-    val searchMealList: LiveData<List<Meal>> get() = _searchMealList
+    private val _searchMealList: MutableLiveData<List<Meal>?> = MutableLiveData()
+    val searchMealList: MutableLiveData<List<Meal>?> get() = _searchMealList
 
     private val _favoriteMealList: MutableLiveData<List<Meal>> = MutableLiveData()
     val favoriteMealList: LiveData<List<Meal>> get() = _favoriteMealList
@@ -109,10 +109,17 @@ class RecipeViewModel(application: Application): AndroidViewModel(application) {
     fun searchForMeals(searchText: String){
         viewModelScope.launch {
             try {
+                val response = repository.searchMealsByName(searchText)
                 handleApiResponseUiLogic(
-                    repository.searchMealsByName(searchText),
+                    response,
                     onSuccess = { data: ResponseObject ->
-                           _searchMealList.postValue(data.meals!!)
+                        // Check if meals exist in the response
+                        if (data.meals != null && data.meals.isNotEmpty()) {
+                            _searchMealList.postValue(data.meals)
+                        } else {
+                            // Post an empty list if no meals are found
+                            _searchMealList.postValue(emptyList())
+                        }
                     },
                     onHttpError = { code, message -> Log.d("boodyNew", "$code, $message")},
                     onUnknownError = {e -> Log.d("boodyNew", "${e.message}")},
@@ -122,6 +129,7 @@ class RecipeViewModel(application: Application): AndroidViewModel(application) {
                 _searchMealList.postValue(result ?: listOf<Meal>())*/
             }catch (e: Exception){
                 Log.e("getAllMeals", e.toString())
+                _searchMealList.postValue(emptyList())
             }
         }
     }
