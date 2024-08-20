@@ -1,8 +1,5 @@
 package com.example.recipeapp.ui.adapter
 
-import android.content.Context
-import android.content.Intent
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recipeapp.R
 import com.example.recipeapp.data.model.Developer
+import com.example.recipeapp.util.AboutHelper
 
 class DeveloperAdapter(private val developers: List<Developer>) :
     RecyclerView.Adapter<DeveloperAdapter.DeveloperViewHolder>() {
@@ -32,18 +30,14 @@ class DeveloperAdapter(private val developers: List<Developer>) :
         holder.nameTextView.text = developer.name
 
         holder.linkedInIcon.setOnClickListener {
-            openUrl(holder.itemView.context, developer.linkedInUrl)
+            AboutHelper().openUrl(holder.itemView.context, developer.linkedInUrl)
         }
 
         holder.gitHubIcon.setOnClickListener {
-            openUrl(holder.itemView.context, developer.gitHubUrl)
+            AboutHelper().openUrl(holder.itemView.context, developer.gitHubUrl)
         }
     }
 
     override fun getItemCount() = developers.size
 
-    private fun openUrl(context: Context, url: String) {
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-        context.startActivity(intent)
-    }
 }

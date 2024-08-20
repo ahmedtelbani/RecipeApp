@@ -26,12 +26,11 @@ class SplashFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
+        // show the logo for 3.2 seconds
         Handler(Looper.getMainLooper()).postDelayed({
             val navController = findNavController()
             val preferencesHelper = PreferencesHelper(requireContext())
             val userStatus = preferencesHelper.getValue()
-//            preferencesHelper.setValue(1)
 
             if (userStatus == 0L) {
                 navController.navigate(R.id.action_splashFragment_to_loginFragment,
@@ -42,8 +41,6 @@ class SplashFragment : Fragment() {
                         }
                     })
             } else {
-                Log.d("SplashFragment", "Navigating to MainActivity")
-
                 startActivity(Intent(requireActivity(), RecipeActivity::class.java))
                 requireActivity().finish()
             }

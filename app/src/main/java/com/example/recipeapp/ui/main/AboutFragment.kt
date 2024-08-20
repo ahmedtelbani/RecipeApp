@@ -16,16 +16,27 @@ import com.example.recipeapp.ui.adapter.DeveloperAdapter
 
 class AboutFragment : Fragment() {
 
+    private lateinit var toolbar: Toolbar
+    private lateinit var recyclerView: RecyclerView
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         (activity as? AppCompatActivity)?.supportActionBar?.hide()
         val view = inflater.inflate(R.layout.fragment_about, container, false)
-        val toolbar: Toolbar = view.findViewById(R.id.toolbar)
+        toolbar = view.findViewById(R.id.toolbar)
+        recyclerView = view.findViewById(R.id.recyclerViewDevelopers)
+
         toolbar.title = "About"
         toolbar.setNavigationIcon(R.drawable.ic_back_arrow)
         toolbar.setNavigationOnClickListener {
             findNavController().navigateUp()
         }
-        val recyclerView: RecyclerView = view.findViewById(R.id.recyclerViewDevelopers)
+
+        return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         recyclerView.layoutManager = LinearLayoutManager(context)
 
         val developers = listOf(
@@ -38,16 +49,11 @@ class AboutFragment : Fragment() {
 
         val developerAdapter = DeveloperAdapter(developers)
         recyclerView.adapter = developerAdapter
-
-        return view
     }
-        override fun onDestroyView() {
-            super.onDestroyView()
-            (activity as? AppCompatActivity)?.supportActionBar?.show()
-        }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onDestroyView() {
+        super.onDestroyView()
+        (activity as? AppCompatActivity)?.supportActionBar?.show()
     }
 
 }

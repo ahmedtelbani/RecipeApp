@@ -1,4 +1,4 @@
-package com.example.recipeapp.network.api
+package com.example.recipeapp.data.network.api
 
 import com.example.recipeapp.util.Constants
 import retrofit2.Retrofit

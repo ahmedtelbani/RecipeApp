@@ -67,8 +67,13 @@ class HomeFragment : Fragment(),
         }
         
         categoryRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        viewModel.getCategories()
-        viewModel.getAllMeals()
+
+        if(isInternetAvailable(view.context)) {
+            viewModel.getCategories()  // Fetch categories
+            viewModel.getAllMeals()  // Fetch all meals
+        } else {
+            // Handle No internet
+        }
     }
 
     override fun onMealItemClicked(meal: Meal) {

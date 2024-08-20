@@ -55,7 +55,6 @@ class SearchFragment : Fragment(), MealAdapter.OnMealItemClickListener {
             // handle No internet
         }
 
-
     }
 
     private fun performSearch(query: String) {

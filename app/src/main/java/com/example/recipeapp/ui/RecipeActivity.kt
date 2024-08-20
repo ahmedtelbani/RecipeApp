@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
@@ -13,7 +12,6 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.example.recipeapp.R
-import com.example.recipeapp.ui.viewmodel.RecipeViewModel
 import com.example.recipeapp.util.PreferencesHelper
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -23,7 +21,6 @@ class RecipeActivity : AppCompatActivity() {
      * Hosts the HomeFragment, FavoriteFragment, SearchFragment, RecipeDetailFragment, etc
      */
 
-    private val recipeViewModel: RecipeViewModel by viewModels()
     private lateinit var navController: NavController
     private lateinit var bottomNav : BottomNavigationView
 
@@ -69,6 +66,7 @@ class RecipeActivity : AppCompatActivity() {
         }
     }
 
+    @Deprecated("This method has been deprecated in favor of using the\n      {@link OnBackPressedDispatcher} via {@link #getOnBackPressedDispatcher()}.\n      The OnBackPressedDispatcher controls how back button events are dispatched\n      to one or more {@link OnBackPressedCallback} objects.")
     override fun onBackPressed() {
         if (navController.currentDestination?.id == R.id.homeFragment) {
             finish()

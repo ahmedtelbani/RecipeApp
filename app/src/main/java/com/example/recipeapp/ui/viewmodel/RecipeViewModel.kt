@@ -11,11 +11,11 @@ import com.example.recipeapp.data.model.Category
 import com.example.recipeapp.data.model.Meal
 import com.example.recipeapp.data.model.ResponseObject
 import com.example.recipeapp.data.repository.RecipeRepository
-import com.example.recipeapp.network.api.IMealsRepository
-import com.example.recipeapp.network.api.IRemoteDataSource
-import com.example.recipeapp.network.api.MealsRepository
-import com.example.recipeapp.network.api.RemoteDataSource
-import com.example.recipeapp.network.api.RetrofitInstance
+import com.example.recipeapp.data.network.api.IMealsRepository
+import com.example.recipeapp.data.network.api.IRemoteDataSource
+import com.example.recipeapp.data.network.api.MealsRepository
+import com.example.recipeapp.data.network.api.RemoteDataSource
+import com.example.recipeapp.data.network.api.RetrofitInstance
 import com.example.recipeapp.util.handleApiResponseUiLogic
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -28,7 +28,7 @@ class RecipeViewModel(application: Application): AndroidViewModel(application) {
     private val recipeRepository: RecipeRepository
 
     private val remoteDataSource : IRemoteDataSource = RemoteDataSource(RetrofitInstance.api)
-    private val repository:IMealsRepository = MealsRepository(remoteDataSource)
+    private val repository: IMealsRepository = MealsRepository(remoteDataSource)
 
     private val _allMealList: MutableLiveData<List<Meal>> = MutableLiveData()
     val allMealList: LiveData<List<Meal>> get() = _allMealList

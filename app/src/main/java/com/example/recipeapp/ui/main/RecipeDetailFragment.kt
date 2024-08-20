@@ -1,8 +1,6 @@
 package com.example.recipeapp.ui.main
 
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +10,7 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
@@ -46,18 +45,17 @@ class RecipeDetailFragment : Fragment() {
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_recipe_detail, container, false)
+        val view = inflater.inflate(R.layout.fragment_recipe_detail, container, false)
+        initializeUI(view)
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initializeUI(view)
 
         if(isInternetAvailable(view.context)) {
-            // call the api via repository
-            viewModel.getMealById(args.selectedMealId)
-            // observe the results
-            viewModel.selectedRecipe.observe(viewLifecycleOwner) {
+            viewModel.getMealById(args.selectedMealId)  // call the api via repository
+            viewModel.selectedRecipe.observe(viewLifecycleOwner) {  // observe the results
                 if(it != null) {
                     updateMealUI(it)
                 }
@@ -127,20 +125,13 @@ class RecipeDetailFragment : Fragment() {
         val filteredIngredients = filterNotEmptyOrNotBlank(ingredients.toList())
         val filteredMeasures = filterNotEmptyOrNotBlank(measures.toList())
 
-        Log.d("boody", filteredIngredients.toString())
-        Log.d("boody", filteredMeasures.toString())
-
         recipeIngredientsListView.text = filteredIngredients.toString()
         recipeMeasuresListView.text = filteredMeasures.toString()
-
-
 
         val videoUrl = "<iframe width=\"100%\" height=\"100%\" src=\"${convertToEmbedUrl(meal.strYoutube!!)}\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>"
         recipeVideoWebView.loadData(videoUrl, "text/html", "utf-8")
         recipeVideoWebView.settings.javaScriptEnabled = true
         recipeVideoWebView.webChromeClient = WebChromeClient()
-
-
     }
 
     private fun filterNotEmptyOrNotBlank(list: List<String?>): List<String> {
@@ -174,7 +165,6 @@ class RecipeDetailFragment : Fragment() {
     }
 
     private fun noInternet() {
-        Log.d("boodyNew", "NoInternet")
         if (errorMessageTextView.visibility == View.GONE) {
             errorMessageTextView.visibility = View.VISIBLE
         }
@@ -194,4 +184,5 @@ class RecipeDetailFragment : Fragment() {
         showMoreButton.visibility = View.VISIBLE
         recipeIconIsFavorateImageButton.visibility = View.VISIBLE
     }
+
 }

@@ -1,7 +1,7 @@
-package com.example.recipeapp.network.api
+package com.example.recipeapp.data.network.api
 
 import com.example.recipeapp.data.model.Category
-import com.example.recipeapp.network.response.ApiResponse
+import com.example.recipeapp.data.network.response.ApiResponse
 
 class MealsRepository(
     private val remoteDataSource: IRemoteDataSource

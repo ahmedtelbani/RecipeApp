@@ -1,9 +1,10 @@
-package com.example.recipeapp.network.api
+package com.example.recipeapp.data.network.api
 
 import com.example.recipeapp.data.model.Category
-import com.example.recipeapp.network.response.ApiResponse
+import com.example.recipeapp.data.network.response.ApiResponse
 
-interface IRemoteDataSource {
+interface IMealsRepository {
+
     suspend fun getAllMeals(): ApiResponse
 
     suspend fun getCategories(): List<Category>
@@ -11,7 +12,6 @@ interface IRemoteDataSource {
     suspend fun getMealById(mealId: Int): ApiResponse
 
     suspend fun searchMealsByName(mealName: String): ApiResponse
-
+  
     suspend fun getRandomMeal(): ApiResponse
-
 }

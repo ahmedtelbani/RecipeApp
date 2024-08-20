@@ -5,17 +5,17 @@ import com.example.recipeapp.data.model.User
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class UserRepository(private val userDao: UserDao) {
+class UserRepository(private val userDao: UserDao): IUserRepository {
 
-    suspend fun addUser(user: User) {
+    override suspend fun addUser(user: User) {
         userDao.addUser(user)
     }
 
-    suspend fun checkIfUserExistsByEmail(userEmail: String): Boolean = withContext(Dispatchers.IO) {
+    override suspend fun checkIfUserExistsByEmail(userEmail: String): Boolean = withContext(Dispatchers.IO) {
         userDao.userExistsByEmail(userEmail)
     }
 
-    suspend fun userLogin(email: String, hashedPassword: String): User? {
+    override suspend fun userLogin(email: String, hashedPassword: String): User? {
         return userDao.userLogin(email, hashedPassword)
     }
 

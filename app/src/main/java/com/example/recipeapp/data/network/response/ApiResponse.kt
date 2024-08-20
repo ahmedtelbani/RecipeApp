@@ -1,4 +1,4 @@
-package com.example.recipeapp.network.response
+package com.example.recipeapp.data.network.response
 
 import com.example.recipeapp.data.model.ResponseObject
 import retrofit2.HttpException
@@ -19,11 +19,11 @@ sealed class ApiResponse {
 suspend fun safeApiCall(apiCall: suspend () -> ResponseObject): ApiResponse {
     return try {
         ApiResponse.Success(apiCall.invoke())
-    } catch (execption: Exception) {
-        when (execption) {
-            is IOException -> ApiResponse.Error.NetworkError(execption)
-            is HttpException -> ApiResponse.Error.HttpError(execption.code(), execption.message())
-            else -> ApiResponse.Error.UnknownError(execption)
+    } catch (exception: Exception) {
+        when (exception) {
+            is IOException -> ApiResponse.Error.NetworkError(exception)
+            is HttpException -> ApiResponse.Error.HttpError(exception.code(), exception.message())
+            else -> ApiResponse.Error.UnknownError(exception)
         }
     }
 }

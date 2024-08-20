@@ -1,4 +1,4 @@
-package com.example.recipeapp.network.api
+package com.example.recipeapp.data.network.api
 
 import com.example.recipeapp.data.model.ResponseObject
 import retrofit2.http.GET

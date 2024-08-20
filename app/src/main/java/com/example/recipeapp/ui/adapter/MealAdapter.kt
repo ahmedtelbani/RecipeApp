@@ -1,5 +1,6 @@
 package com.example.recipeapp.ui.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -60,6 +61,7 @@ class MealAdapter (
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun updateMeals(newMeals: List<Meal>) {
         this.foodList = newMeals
         notifyDataSetChanged()  // Notify the adapter that the data has changed
