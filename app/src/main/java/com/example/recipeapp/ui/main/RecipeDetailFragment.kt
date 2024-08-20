@@ -8,11 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebChromeClient
 import android.webkit.WebView
-import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
-import android.widget.ListView
 import android.widget.TextView
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
@@ -22,6 +20,7 @@ import com.example.recipeapp.data.model.Meal
 import com.example.recipeapp.data.model.getIngredients
 import com.example.recipeapp.data.model.getMeasures
 import com.example.recipeapp.ui.viewmodel.RecipeViewModel
+import com.example.recipeapp.util.isInternetAvailable
 
 class RecipeDetailFragment : Fragment() {
 
@@ -39,6 +38,7 @@ class RecipeDetailFragment : Fragment() {
     private lateinit var recipeInstructionsTextView: TextView
     private lateinit var showMoreButton: Button
     private lateinit var recipeVideoWebView: WebView
+    private lateinit var errorMessageTextView: TextView
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -48,22 +48,31 @@ class RecipeDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initializeUI(view)
-        // call the api via repository
-        viewModel.getMealById(args.selectedMealId)
-        // observe the results
-        viewModel.selectedRecipe.observe(viewLifecycleOwner) {
-            if(it != null) {
-                updateMealUI(it)
+
+        if(isInternetAvailable(view.context)) {
+            // call the api via repository
+            viewModel.getMealById(args.selectedMealId)
+            // observe the results
+            viewModel.selectedRecipe.observe(viewLifecycleOwner) {
+                if(it != null) {
+                    updateMealUI(it)
+                }
             }
+
+            showMoreButton.setOnClickListener {
+                viewModel.switchShowFullRecipe()
+            }
+
+            viewModel.showFullRecipe.observe(viewLifecycleOwner) {
+                setItemsVisibility(it)
+            }
+
+            errorMessageTextView.visibility = View.GONE
+        } else {
+            noInternet()
         }
 
-        showMoreButton.setOnClickListener {
-            viewModel.switchShowFullRecipe()
-        }
 
-        viewModel.showFullRecipe.observe(viewLifecycleOwner) {
-            setItemsVisibility(it)
-        }
     }
 
     private fun initializeUI(view: View) {
@@ -77,6 +86,7 @@ class RecipeDetailFragment : Fragment() {
         recipeInstructionsTextView = view.findViewById(R.id.tv_recipe_instructions)
         showMoreButton = view.findViewById(R.id.btn_show_full_recipe)
         recipeVideoWebView = view.findViewById(R.id.wv_recipe_video)
+        errorMessageTextView = view.findViewById(R.id.tv_error_message_recipe_details_fragment)
     }
 
     private fun updateMealUI(meal: Meal) {
@@ -99,8 +109,6 @@ class RecipeDetailFragment : Fragment() {
                 }
             }
         }
-
-
 
         recipeCategoryTextView.text = meal.strCategory
         recipeAreaTextView.text = meal.strArea
@@ -136,13 +144,10 @@ class RecipeDetailFragment : Fragment() {
             recipeMeasuresListView.visibility = View.GONE
             recipeIngredientsListView.visibility = View.GONE
             recipeInstructionsTextView.visibility = View.GONE
-//            recipeVideoWebView.visibility = View.GONE
         } else {
             recipeMeasuresListView.visibility = View.VISIBLE
             recipeIngredientsListView.visibility = View.VISIBLE
             recipeInstructionsTextView.visibility = View.VISIBLE
-//            recipeVideoWebView.visibility = View.GONE
-
         }
 
     }
@@ -155,6 +160,13 @@ class RecipeDetailFragment : Fragment() {
             "https://www.youtube.com/embed/$videoId"
         } else {
             throw IllegalArgumentException("Invalid YouTube URL")
+        }
+    }
+
+    private fun noInternet() {
+        Log.d("boodyNew", "NoInternet")
+        if (errorMessageTextView.visibility == View.GONE) {
+            errorMessageTextView.visibility = View.VISIBLE
         }
     }
 }
