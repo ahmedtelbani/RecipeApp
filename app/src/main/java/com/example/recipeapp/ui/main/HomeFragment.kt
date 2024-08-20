@@ -19,38 +19,44 @@ import com.example.recipeapp.ui.viewmodel.RecipeViewModel
 
 class HomeFragment : Fragment(),
     MealAdapter.OnMealItemClickListener,
-    CategoryAdapter.OnCategoryItemClickListener{
-    private val viewModel: RecipeViewModel by viewModels() // ViewModel initialization
+    CategoryAdapter.OnCategoryItemClickListener {
+
+    private val viewModel: RecipeViewModel by viewModels()
     private lateinit var mealAdapter: MealAdapter
     private lateinit var categoryTitleTextView: TextView
+    private lateinit var emptyListMessageTextView: TextView
+    private lateinit var recyclerView: RecyclerView
     private var originalMealList: List<Meal> = listOf()
 
-
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
+        inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_home, container, false)
-        return view
+        return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Pass the ViewModel to the adapter
+
         mealAdapter = MealAdapter(listOf(), this, viewModel)
-        val recyclerView: RecyclerView = view.findViewById(R.id.food_recycler_view)
-        val categoryRecyclerView : RecyclerView = view.findViewById(R.id.category_recycler_view)
+        recyclerView = view.findViewById(R.id.food_recycler_view)
+        val categoryRecyclerView: RecyclerView = view.findViewById(R.id.category_recycler_view)
         categoryTitleTextView = view.findViewById(R.id.allMealsTextView)
+        emptyListMessageTextView = view.findViewById(R.id.empty_list_message)
 
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = mealAdapter
-
-        // Observe the meals from ViewModel and update the adapter
         viewModel.allMealList.observe(viewLifecycleOwner) { meals ->
+            if (meals.isEmpty()) {
+                emptyListMessageTextView.visibility = View.VISIBLE
+                recyclerView.visibility = View.GONE
+            } else {
+                emptyListMessageTextView.visibility = View.GONE
+                recyclerView.visibility = View.VISIBLE
+                mealAdapter.updateMeals(meals)
+            }
             originalMealList = meals
-            mealAdapter.updateMeals(meals)
         }
 
         viewModel.categoryList.observe(viewLifecycleOwner) { categoryList ->
@@ -59,11 +65,9 @@ class HomeFragment : Fragment(),
         }
         categoryRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
-        //Fetch categories
         viewModel.getCategories()
-        // Fetch all meals
-        viewModel.getAllMeals()
 
+        viewModel.getAllMeals()
     }
 
     override fun onMealItemClicked(meal: Meal) {
@@ -75,16 +79,25 @@ class HomeFragment : Fragment(),
         if (category.strCategory == "Random Meal") {
             viewModel.getRandomMeal()
             viewModel.randomMealList.observe(viewLifecycleOwner) { randomMeals ->
-                mealAdapter.updateMeals(randomMeals)
+                if (randomMeals.isEmpty()) {
+                    emptyListMessageTextView.visibility = View.VISIBLE
+                    recyclerView.visibility = View.GONE
+                } else {
+                    emptyListMessageTextView.visibility = View.GONE
+                    recyclerView.visibility = View.VISIBLE
+                    mealAdapter.updateMeals(randomMeals)
+                }
+            }
+        } else {
+            mealAdapter.filterMeals(category.strCategory, originalMealList)
+            if (mealAdapter.itemCount == 0) {
+                emptyListMessageTextView.visibility = View.VISIBLE
+                recyclerView.visibility = View.GONE
+            } else {
+                emptyListMessageTextView.visibility = View.GONE
+                recyclerView.visibility = View.VISIBLE
             }
         }
-        else
-            mealAdapter.filterMeals(category.strCategory,originalMealList)
         categoryTitleTextView.text = category.strCategory
     }
-//    fun showAllMeals() {
-//        mealAdapter.filterMeals(null)
-//        categoryTitleTextView.text = "All Meals"
-//    }
-
 }
