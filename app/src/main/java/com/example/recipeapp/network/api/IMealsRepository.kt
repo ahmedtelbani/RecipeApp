@@ -14,5 +14,5 @@ interface IMealsRepository {
 
     suspend fun searchMealsByName(mealName: String): ApiResponse
   
-    suspend fun getRandomMeal():List<Meal>
+    suspend fun getRandomMeal(): ApiResponse
 }

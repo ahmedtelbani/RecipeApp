@@ -16,6 +16,7 @@ import com.example.recipeapp.data.model.Meal
 import com.example.recipeapp.ui.adapter.CategoryAdapter
 import com.example.recipeapp.ui.adapter.MealAdapter
 import com.example.recipeapp.ui.viewmodel.RecipeViewModel
+import com.example.recipeapp.util.isInternetAvailable
 
 class HomeFragment : Fragment(),
     MealAdapter.OnMealItemClickListener,
@@ -59,10 +60,17 @@ class HomeFragment : Fragment(),
         }
         categoryRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
-        //Fetch categories
-        viewModel.getCategories()
-        // Fetch all meals
-        viewModel.getAllMeals()
+
+        if(isInternetAvailable(view.context)) {
+            //Fetch categories
+            viewModel.getCategories()
+            // Fetch all meals
+            viewModel.getAllMeals()
+        } else {
+            // Handle No internet
+        }
+
+
 
     }
 
