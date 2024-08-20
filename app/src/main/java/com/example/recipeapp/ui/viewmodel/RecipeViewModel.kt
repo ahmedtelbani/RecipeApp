@@ -45,6 +45,8 @@ class RecipeViewModel(application: Application): AndroidViewModel(application) {
     private val _favoriteMealListIds: MutableLiveData<List<String>> = MutableLiveData()
     val favoriteMealListIds: LiveData<List<String>> get() = _favoriteMealListIds
 
+    val randomMealList: LiveData<List<Meal>> get() = _randomMealList
+    private val _randomMealList:MutableLiveData<List<Meal>> = MutableLiveData()
 
 
     init {
@@ -62,6 +64,20 @@ class RecipeViewModel(application: Application): AndroidViewModel(application) {
                 Log.i("getAllMeals",result.toString())
             }catch (e: Exception){
                 Log.e("getAllMeals", e.toString())
+            }
+        }
+    }
+
+    fun getRandomMeal()
+    {
+        viewModelScope.launch {
+            try{
+                val result = repository.getRandomMeal()
+                _randomMealList.postValue(result)
+                Log.i("getRandomMeal",result.toString())
+            }catch(e:Exception)
+            {
+                Log.e("getRandomMeal", e.toString())
             }
         }
     }

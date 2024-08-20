@@ -12,4 +12,6 @@ interface IRemoteDataSource {
 
     suspend fun searchMealsByName(mealName: String): List<Meal>?
 
+    suspend fun getRandomMeal(): List<Meal>
+
 }

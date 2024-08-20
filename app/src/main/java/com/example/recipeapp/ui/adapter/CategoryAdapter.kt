@@ -23,10 +23,16 @@ class CategoryAdapter(
             strCategoryThumb  = "https://mymetabolicmeals.com/cdn/shop/files/Home_SupportImages_Meal-Collage_ba7b3fcf-68bb-4952-aea2-9920385ec6fa.png?v=1673542356",
             strCategoryDescription = "All meals combined"
         )
+        private val randomMealCategory = Categories(
+            idCategory = "random_meal",
+            strCategory = "Random Meal",
+            strCategoryThumb = "https://www.listchallenges.com/f/lists/ae0b84a5-e7d2-41e8-8d4a-ad5fa0d60ae2.jpg",
+            strCategoryDescription = "Random meal"
+        )
     }
 
     init {
-        categoryList = listOf(allMealsCategory) + categoryList
+        categoryList = listOf(allMealsCategory, randomMealCategory) + categoryList
     }
 
     interface OnCategoryItemClickListener {
