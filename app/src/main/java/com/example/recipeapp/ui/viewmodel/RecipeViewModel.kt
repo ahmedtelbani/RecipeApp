@@ -7,7 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.recipeapp.data.database.RecipeDatabase
-import com.example.recipeapp.data.model.Categories
+import com.example.recipeapp.data.model.Category
 import com.example.recipeapp.data.model.Meal
 import com.example.recipeapp.data.model.ResponseObject
 import com.example.recipeapp.data.repository.RecipeRepository
@@ -33,8 +33,8 @@ class RecipeViewModel(application: Application): AndroidViewModel(application) {
     private val _allMealList: MutableLiveData<List<Meal>> = MutableLiveData()
     val allMealList: LiveData<List<Meal>> get() = _allMealList
 
-    private val _categoryList: MutableLiveData<List<Categories>> = MutableLiveData()
-    val categoryList: LiveData<List<Categories>> get() = _categoryList
+    private val _categoryList: MutableLiveData<List<Category>> = MutableLiveData()
+    val categoryList: LiveData<List<Category>> get() = _categoryList
 
     private val _searchMealList: MutableLiveData<List<Meal>> = MutableLiveData()
     val searchMealList: LiveData<List<Meal>> get() = _searchMealList

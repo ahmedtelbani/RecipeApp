@@ -17,6 +17,7 @@ import com.example.recipeapp.ui.RecipeActivity
 import com.example.recipeapp.ui.viewmodel.AuthViewModel
 import com.example.recipeapp.util.AuthHelper
 import com.example.recipeapp.util.PreferencesHelper
+import com.example.recipeapp.util.Security
 import com.google.android.material.snackbar.Snackbar
 
 class LoginFragment : Fragment() {
@@ -52,7 +53,8 @@ class LoginFragment : Fragment() {
             } else if (!authHelper.isPasswordValid()) {
                 showSnackBar(getString(R.string.password_validation_message))
             } else {  // everything perfect
-                authViewModel.userLogin(email, password)
+                val hashedPassword = Security().hashPassword(password)
+                authViewModel.userLogin(email, hashedPassword)
                 authViewModel.loginUser.observe(viewLifecycleOwner) { user ->
                     if (user != null) {
                         val intent = Intent(requireActivity(), RecipeActivity::class.java)

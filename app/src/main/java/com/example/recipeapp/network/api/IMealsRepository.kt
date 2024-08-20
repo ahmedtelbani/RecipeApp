@@ -1,14 +1,13 @@
 package com.example.recipeapp.network.api
 
-import com.example.recipeapp.data.model.Categories
-import com.example.recipeapp.data.model.Meal
+import com.example.recipeapp.data.model.Category
 import com.example.recipeapp.network.response.ApiResponse
 
 interface IMealsRepository {
 
     suspend fun getAllMeals(): ApiResponse
 
-    suspend fun getCategories(): List<Categories>
+    suspend fun getCategories(): List<Category>
 
     suspend fun getMealById(mealId: Int): ApiResponse
 

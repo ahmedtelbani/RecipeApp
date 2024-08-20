@@ -17,8 +17,8 @@ import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.example.recipeapp.R
 import com.example.recipeapp.data.model.Meal
-import com.example.recipeapp.data.model.getIngredients
-import com.example.recipeapp.data.model.getMeasures
+import com.example.recipeapp.ui.extensions.getIngredients
+import com.example.recipeapp.ui.extensions.getMeasures
 import com.example.recipeapp.ui.viewmodel.RecipeViewModel
 import com.example.recipeapp.util.isInternetAvailable
 

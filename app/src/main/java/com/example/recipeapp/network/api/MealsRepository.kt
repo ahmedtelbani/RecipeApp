@@ -1,7 +1,6 @@
 package com.example.recipeapp.network.api
 
-import com.example.recipeapp.data.model.Categories
-import com.example.recipeapp.data.model.Meal
+import com.example.recipeapp.data.model.Category
 import com.example.recipeapp.network.response.ApiResponse
 
 class MealsRepository(
@@ -11,7 +10,7 @@ class MealsRepository(
         return remoteDataSource.getAllMeals()
     }
 
-    override suspend fun getCategories(): List<Categories> {
+    override suspend fun getCategories(): List<Category> {
         return remoteDataSource.getCategories()
     }
 

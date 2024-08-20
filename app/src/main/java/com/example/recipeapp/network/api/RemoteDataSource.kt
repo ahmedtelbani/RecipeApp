@@ -1,13 +1,8 @@
 package com.example.recipeapp.network.api
 
-import com.example.recipeapp.data.model.Categories
-import com.example.recipeapp.data.model.Meal
-import com.example.recipeapp.data.model.ResponseObject
+import com.example.recipeapp.data.model.Category
 import com.example.recipeapp.network.response.ApiResponse
 import com.example.recipeapp.network.response.safeApiCall
-import com.example.recipeapp.util.isInternetAvailable
-import retrofit2.HttpException
-import java.io.IOException
 
 class RemoteDataSource(
     private val api: RecipeApi
@@ -16,7 +11,7 @@ class RemoteDataSource(
         return safeApiCall { api.getAllMeals() }
     }
 
-    override suspend fun getCategories(): List<Categories> {
+    override suspend fun getCategories(): List<Category> {
         return api.getCategories().categories
     }
 

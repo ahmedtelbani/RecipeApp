@@ -11,7 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recipeapp.R
-import com.example.recipeapp.data.model.Categories
+import com.example.recipeapp.data.model.Category
 import com.example.recipeapp.data.model.Meal
 import com.example.recipeapp.ui.adapter.CategoryAdapter
 import com.example.recipeapp.ui.adapter.MealAdapter
@@ -79,7 +79,7 @@ class HomeFragment : Fragment(),
         findNavController().navigate(action)
     }
 
-    override fun onCategoryItemClicked(category: Categories) {
+    override fun onCategoryItemClicked(category: Category) {
         if (category.strCategory == "Random Meal") {
             viewModel.getRandomMeal()
             viewModel.randomMealList.observe(viewLifecycleOwner) { randomMeals ->
