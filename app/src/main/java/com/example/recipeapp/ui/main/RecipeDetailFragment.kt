@@ -160,7 +160,7 @@ class RecipeDetailFragment : Fragment() {
         return if (videoId != null) {
             "https://www.youtube.com/embed/$videoId"
         } else {
-            throw IllegalArgumentException("Invalid YouTube URL")
+           "https://w7.pngwing.com/pngs/830/469/png-transparent-youtuber-sad-desktop-youtube-logo-computer-wallpaper-smiley-thumbnail.png"
         }
     }
 
