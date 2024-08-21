@@ -1,45 +1,35 @@
 package com.example.recipeapp.data.repository
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.map
 import com.example.recipeapp.data.database.RecipeDao
 import com.example.recipeapp.data.model.Meal
 import com.example.recipeapp.data.network.api.RemoteDataSource
 import com.example.recipeapp.data.network.response.ApiResponse
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 class RecipeRepository(
     private val recipeDao: RecipeDao,
     private val remoteDataSource: RemoteDataSource
-): IRecipeRepository {
-    /**
-     * Handles data operations, including fetching data from the network and the local database.
-     */
+) : IRecipeRepository {
 
-    override suspend fun addFavoriteMeal(meal: Meal) {
-        recipeDao.addFavoriteMeal(meal)
+    override suspend fun addFavoriteMeal(meal: Meal, userId: String) {
+        val mealWithUserId = meal.copy(userId = userId)
+        recipeDao.addFavoriteMeal(mealWithUserId)
     }
 
-    override suspend fun getAllFavoriteMeals(): List<Meal> = withContext(Dispatchers.IO) {
-        recipeDao.getAllFavoriteMeals()
+    override suspend fun getAllFavoriteMeals(userId: String): List<Meal> {
+        return recipeDao.getAllFavoriteMeals(userId)
     }
 
-
-    override suspend fun deleteFavoriteMeal(meal: Meal) {
-        recipeDao.deleteFavoriteMeal(meal)
+    override suspend fun deleteFavoriteMeal(meal: Meal, userId: String) {
+        recipeDao.deleteFavoriteMeal(meal.idMeal, userId)
     }
 
-    // online related
     override suspend fun getMealById(id: Int): ApiResponse {
         return remoteDataSource.getMealById(id)
     }
-    override fun isMealFavorite(mealId: String): LiveData<Boolean> {
-        val result = MediatorLiveData<Boolean>()
-        result.addSource(recipeDao.isMealFavorite(mealId)) { meal ->
-            result.value = meal != null
-        }
-        return result
-    }
 
+    override fun isMealFavorite(mealId: String, userId: String): LiveData<Boolean> {
+        return recipeDao.isMealFavorite(mealId, userId).map { it != null }
+    }
 }

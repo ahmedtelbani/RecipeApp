@@ -6,15 +6,18 @@ import com.example.recipeapp.data.network.response.ApiResponse
 
 interface IRecipeRepository {
 
-    suspend fun addFavoriteMeal(meal: Meal)
+    // Add a favorite meal for a specific user
+    suspend fun addFavoriteMeal(meal: Meal, userId: String)
 
-    suspend fun getAllFavoriteMeals(): List<Meal>
-    
-    suspend fun deleteFavoriteMeal(meal: Meal)
+    // Get all favorite meals for a specific user
+    suspend fun getAllFavoriteMeals(userId: String): List<Meal>
 
-    // online related
+    // Delete a favorite meal for a specific user
+    suspend fun deleteFavoriteMeal(meal: Meal, userId: String)
+
+    // Get meal details by ID (online related)
     suspend fun getMealById(id: Int): ApiResponse
-    
-    fun isMealFavorite(mealId: String): LiveData<Boolean>
-    
+
+    // Check if a meal is a favorite for a specific user
+    fun isMealFavorite(mealId: String, userId: String): LiveData<Boolean>
 }
