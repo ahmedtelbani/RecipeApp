@@ -35,4 +35,7 @@
     <string name="favorite_button">Favorite Button</string>
     <string name="show_less">Show less</string>
     <string name="couldnt_connect_to_the_internet">Couldn\'t connect to the internet</string>
+    <string name="no_meals_available">No meals available</string>
+    <string name="favorite_meals">Favorite Meals</string>
+    <string name="no_favorite_meals_yet">No favorite meals yet!</string>
 </resources>
