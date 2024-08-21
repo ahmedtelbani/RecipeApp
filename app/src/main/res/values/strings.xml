@@ -34,4 +34,5 @@
     <string name="no_network_connection">NO Network Connection</string>
     <string name="favorite_button">Favorite Button</string>
     <string name="show_less">Show less</string>
+    <string name="couldnt_connect_to_the_internet">Couldn\'t connect to the internet</string>
 </resources>
