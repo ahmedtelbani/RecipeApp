@@ -54,16 +54,31 @@ class LoginFragment : Fragment() {
                 showSnackBar(getString(R.string.password_validation_message))
             } else {  // everything perfect
                 val hashedPassword = Security().hashPassword(password)
-                authViewModel.userLogin(email, hashedPassword)
-                authViewModel.loginUser.observe(viewLifecycleOwner) { user ->
-                    if (user != null) {
-                        val intent = Intent(requireActivity(), RecipeActivity::class.java)
-                        val preferences = PreferencesHelper(requireContext())
-                        preferences.setValue(user.id)
-                        startActivity(intent)
-                        requireActivity().finish()
-                    } else {
-                        showSnackBar(getString(R.string.you_don_t_have_an_account))
+                authViewModel.getUserByEmail(email)
+                authViewModel.userByEmail.observe(viewLifecycleOwner)
+                {
+                    if(it == null)
+                    {
+                        showSnackBar("You don't have an account")
+                    }
+                    else if ( it.email == email && it.hashedPassword != hashedPassword)
+                    {
+                        showSnackBar("Wrong password")
+                    }
+                    else
+                    {
+                        authViewModel.userLogin(email, hashedPassword)
+                        authViewModel.loginUser.observe(viewLifecycleOwner) { user ->
+                            if (user != null) {
+                                val intent = Intent(requireActivity(), RecipeActivity::class.java)
+                                val preferences = PreferencesHelper(requireContext())
+                                preferences.setValue(user.id)
+                                startActivity(intent)
+                                requireActivity().finish()
+                            } else {
+                                showSnackBar(getString(R.string.you_don_t_have_an_account))
+                            }
+                        }
                     }
                 }
             }
