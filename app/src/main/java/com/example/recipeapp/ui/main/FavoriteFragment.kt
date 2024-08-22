@@ -37,12 +37,10 @@ class FavoriteFragment : Fragment(), MealAdapter.OnMealItemClickListener {
         toolbar = view.findViewById(R.id.toolbar)
         recyclerView = view.findViewById(R.id.recyclerView)
         emptyTextView = view.findViewById(R.id.emptyTextView)
-        //viewModel.addTestMeal()
 
         toolbar.title = "Favorite"
-        favoriteAdapter = MealAdapter(mutableListOf(), this, viewModel) // Pass the ViewModel to the adapter
+        favoriteAdapter = MealAdapter(mutableListOf(), this, viewModel)
 
-        // Set up the RecyclerView with the adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = favoriteAdapter
 
@@ -53,7 +51,7 @@ class FavoriteFragment : Fragment(), MealAdapter.OnMealItemClickListener {
             } else {
                 emptyTextView.visibility = View.GONE
                 recyclerView.visibility = View.VISIBLE
-                 favoriteAdapter.updateMeals(meals)
+                favoriteAdapter.updateMeals(meals)
             }
         }
 
