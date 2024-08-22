@@ -54,14 +54,21 @@ class LoginFragment : Fragment() {
                 showSnackBar(getString(R.string.password_validation_message))
             } else {  // everything perfect
                 val hashedPassword = Security().hashPassword(password)
+                authViewModel.isUserExistByEmail(email)
                 authViewModel.userLogin(email, hashedPassword)
-                authViewModel.loginUser.observe(viewLifecycleOwner) { user ->
-                    if (user != null) {
-                        val intent = Intent(requireActivity(), RecipeActivity::class.java)
-                        val preferences = PreferencesHelper(requireContext())
-                        preferences.setValue(user.id)
-                        startActivity(intent)
-                        requireActivity().finish()
+                authViewModel.isUserExist.observe(viewLifecycleOwner) { isUserExist ->
+                    if (isUserExist) {
+                        authViewModel.loginUser.observe(viewLifecycleOwner) { user ->
+                            if (user != null) {
+                                val intent = Intent(requireActivity(), RecipeActivity::class.java)
+                                val preferences = PreferencesHelper(requireContext())
+                                preferences.setValue(user.id)
+                                startActivity(intent)
+                                requireActivity().finish()
+                            } else {
+                                showSnackBar(getString(R.string.incorrect_password))
+                            }
+                        }
                     } else {
                         showSnackBar(getString(R.string.you_don_t_have_an_account))
                     }
