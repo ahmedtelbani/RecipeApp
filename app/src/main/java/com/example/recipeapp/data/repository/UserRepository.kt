@@ -19,8 +19,4 @@ class UserRepository(private val userDao: UserDao): IUserRepository {
         return userDao.userLogin(email, hashedPassword)
     }
 
-    override suspend fun getUserByEmail(email: String): User? {
-        return userDao.getUserByEmail(email)
-    }
-
 }

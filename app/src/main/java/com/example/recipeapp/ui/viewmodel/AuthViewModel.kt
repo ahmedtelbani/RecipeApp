@@ -23,10 +23,6 @@ class AuthViewModel(application: Application): AndroidViewModel(application) {
     private val _loginUser: MutableLiveData<User> = MutableLiveData()
     val loginUser: LiveData<User> get() = _loginUser
 
-    private val _userByEmail : MutableLiveData<User> = MutableLiveData()
-
-    val  userByEmail : LiveData<User>  get() = _userByEmail
-
     init {
         val userDao = RecipeDatabase.getDatabase(application).userDao()
         userRepository = UserRepository(userDao)
@@ -48,13 +44,6 @@ class AuthViewModel(application: Application): AndroidViewModel(application) {
     fun userLogin(email: String, hashedPassword: String) {
         viewModelScope.launch {
             _loginUser.postValue(userRepository.userLogin(email, hashedPassword))
-        }
-    }
-
-    fun getUserByEmail(email:String)
-    {
-        viewModelScope.launch {
-            _userByEmail.postValue(userRepository.getUserByEmail(email))
         }
     }
 

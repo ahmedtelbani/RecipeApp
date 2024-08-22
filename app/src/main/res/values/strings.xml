@@ -21,7 +21,6 @@
     <string name="incorrect_password">Incorrect password!</string>
     <string name="the_email_is_not_in_valid_form">The email is not in valid form!</string>
     <string name="password_validation_message">The password must contain at least one capital letter, one number, and 8 characters total.</string>
-    <string name="incorrect_password">Incorrect Password!</string>
     <string name="the_email_field_is_empty">The email field is Empty!</string>
     <string name="the_password_field_is_empty">The password field is Empty!</string>
     <string name="account_created_successfully">Account Created successfully</string>

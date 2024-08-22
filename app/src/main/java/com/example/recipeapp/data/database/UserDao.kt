@@ -18,7 +18,4 @@ interface UserDao {
     @Query("SELECT * FROM user WHERE email = :email AND hashedPassword = :hashedPassword")
     suspend fun userLogin(email: String, hashedPassword: String): User?
 
-    @Query("SELECT * FROM user where email = :email")
-    suspend fun getUserByEmail(email:String):User?
-
 }
