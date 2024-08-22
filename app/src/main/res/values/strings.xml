@@ -18,6 +18,7 @@
     <string name="category_meals">Category Meals</string>
     <string name="all_meals">All Meals</string>
     <string name="you_don_t_have_an_account">You don\'t have an account!</string>
+    <string name="incorrect_password">Incorrect password!</string>
     <string name="the_email_is_not_in_valid_form">The email is not in valid form!</string>
     <string name="password_validation_message">The password must contain at least one capital letter, one number, and 8 characters total.</string>
     <string name="the_email_field_is_empty">The email field is Empty!</string>
