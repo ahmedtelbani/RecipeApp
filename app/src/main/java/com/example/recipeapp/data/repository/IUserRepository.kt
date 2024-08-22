@@ -9,5 +9,7 @@ interface IUserRepository {
     suspend fun checkIfUserExistsByEmail(userEmail: String): Boolean
 
     suspend fun userLogin(email: String, hashedPassword: String): User?
+
+    suspend fun getUserByEmail(email:String): User?
     
 }
