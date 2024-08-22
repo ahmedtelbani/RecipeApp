@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white_black"
     tools:context=".ui.main.FavoriteFragment">
 
     <androidx.appcompat.widget.Toolbar
@@ -13,7 +14,7 @@
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
         android:elevation="4dp"
-        android:title="Favorite Meals"
+        android:title="@string/favorite_meals"
         android:titleTextColor="@android:color/white"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,7 +25,7 @@
         android:id="@+id/emptyTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="No favorite meals yet!"
+        android:text="@string/no_favorite_meals_yet"
         android:textSize="18sp"
         android:textColor="@android:color/darker_gray"
         android:visibility="gone"
